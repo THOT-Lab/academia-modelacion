@@ -3,7 +3,10 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>IDIGER | Academia y modelacion</title>
+  <title>IDIGER | Academia y modelación</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,500;0,9..144,600;1,9..144,500&display=swap" rel="stylesheet" />
   <style>
     :root {
       --ink: #152033;
@@ -1823,12 +1826,44 @@
       .partner-band img { height: 17px; }
     }
 
+    /* En-tete non fixe (defile avec la page) */
+    header {
+      position: static;
+      backdrop-filter: none;
+    }
+    /* Titre : typographie soignee */
+    #page-title {
+      font-family: "Fraunces", Georgia, "Times New Roman", serif;
+      font-size: 44px;
+      font-weight: 600;
+      line-height: 1.02;
+      letter-spacing: -0.015em;
+      margin: 0 0 4px;
+    }
+    #page-title .t2 {
+      color: var(--cyan);
+      font-style: italic;
+      font-weight: 500;
+    }
+    /* Bande de logos + langues empilees a droite */
+    .toolbar {
+      flex-direction: column;
+      align-items: flex-end;
+      gap: 10px;
+    }
+    .partner-band { margin-bottom: 0; }
+    @media (max-width: 720px) {
+      .toolbar { align-items: flex-start; }
+      #page-title { font-size: 34px; }
+    }
+
     /* Pastilles de filtrage par type de risque */
+    .filter-host.academia-panel { padding: 0; }
     .filter-bar {
       display: flex;
       flex-wrap: wrap;
       gap: 7px;
-      margin: 2px 0 16px;
+      margin: 0 0 16px;
     }
     .filter-pill {
       min-height: 30px;
@@ -1855,13 +1890,13 @@
     <header>
       <div class="topline">
         <div>
-          <div class="partner-band">
-            <img src="assets/logos/partner-band.png" alt="IGN FI · 3E Conseils · THOT · Alcaldia Mayor de Bogota / IDIGER · AFD" />
-          </div>
-          <h2 id="page-title">Academia y modelacion</h2>
+          <h2 id="page-title"><span class="t1">Academia y</span> <span class="t2">modelación</span></h2>
           <p class="subtitle" id="page-subtitle">Corpus mondial sur la gestion et la modelisation des risques : articles, theses et chercheurs de reference.</p>
         </div>
         <div class="toolbar">
+          <div class="partner-band">
+            <img src="assets/logos/partner-band.png" alt="IGN FI · 3E Conseils · THOT · Alcaldia Mayor de Bogota / IDIGER · AFD" />
+          </div>
           <div class="lang-switch" aria-label="Langue">
             <button class="lang-btn active" type="button" data-lang="fr">FR</button>
             <button class="lang-btn" type="button" data-lang="es">ES</button>
@@ -1968,26 +2003,26 @@
               <table class="researcher-table">
                 <thead><tr><th>Nom</th><th>Pays / ancrage</th><th>Universite / organisme</th><th>Travaux clefs Bogota</th><th>Contact public</th></tr></thead>
                 <tbody>
-                  <tr><td>Austin Zeiderman</td><td>Etats-Unis / Royaume-Uni</td><td>London School of Economics</td><td>Gouvernement du risque, zones de haut risque, livre Endangered City.</td><td><a href="mailto:a.zeiderman@lse.ac.uk">a.zeiderman@lse.ac.uk</a></td></tr>
-                  <tr><td>Arabella Fraser</td><td>Royaume-Uni</td><td>Open University</td><td>Vulnerabilite, savoirs techniques, adaptation et quartiers informels.</td><td><a href="mailto:arabella.fraser@open.ac.uk">arabella.fraser@open.ac.uk</a></td></tr>
-                  <tr><td>Hugo Sarmiento</td><td>Etats-Unis / Colombie</td><td>Columbia GSAPP</td><td>Relogements climatiques Bogota Humana, justice spatiale et adaptation.</td><td><a href="https://crcl.columbia.edu/people/hugo-sarmiento" target="_blank" rel="noopener">profil Columbia</a></td></tr>
-                  <tr><td>Duvan H. Lopez Meneses</td><td>Colombie / Espagne</td><td>UPC - UNESCO Chair on Sustainability</td><td>Arraigo, relogement, Altos de la Estancia, attribution du risque climatique.</td><td><a href="mailto:duvan.hernan.lopez@upc.edu">duvan.hernan.lopez@upc.edu</a></td></tr>
-                  <tr><td>Daniel Ricardo Calderon Ramirez</td><td>Colombie</td><td>Universidad Externado de Colombia</td><td>Analyse de reseaux et gouvernance du SDGR-CC de Bogota.</td><td><a href="mailto:daniel.calderon@uexternado.edu.co">daniel.calderon@uexternado.edu.co</a></td></tr>
-                  <tr><td>Klaus Frey</td><td>Bresil / Allemagne</td><td>Universidade Federal do ABC</td><td>Co-auteur sur gouvernance interactive du risque a Bogota.</td><td><a href="mailto:klaus.frey@ufabc.edu.br">klaus.frey@ufabc.edu.br</a></td></tr>
-                  <tr><td>Omar D. Cardona</td><td>Colombie</td><td>Universidad Nacional de Colombia - IDEA Manizales</td><td>Microzonation, risque sismique holistique, CAPRA et politiques publiques.</td><td><a href="mailto:odcardonaa@unal.edu.co">odcardonaa@unal.edu.co</a></td></tr>
-                  <tr><td>Luis E. Yamin</td><td>Colombie</td><td>Universidad de los Andes</td><td>Microzonation, pertes sismiques, ponts, lignes vitales et simulations 3D.</td><td><a href="mailto:lyamin@uniandes.edu.co">lyamin@uniandes.edu.co</a></td></tr>
-                  <tr><td>Ana Beatriz Acevedo</td><td>Colombie</td><td>Universidad EAFIT</td><td>Risque sismique residentiel, modeles GEM/OpenQuake et portefeuilles urbains.</td><td><a href="mailto:aaceved14@eafit.edu.co">aaceved14@eafit.edu.co</a></td></tr>
-                  <tr><td>Andrea C. Riano</td><td>Colombie / Etats-Unis</td><td>Universidad de los Andes; Carnegie Mellon</td><td>Modele crustal 3D et simulations sismiques large echelle pour Bogota.</td><td><a href="mailto:ac.riano384@uniandes.edu.co">ac.riano384@uniandes.edu.co</a></td></tr>
-                  <tr><td>Maria Carolina Rogelis</td><td>Colombie / Pays-Bas</td><td>UNESCO-IHE / IHE Delft</td><td>Susceptibilite debris-flow et priorisation du risque d'inondation montagneux.</td><td><a href="mailto:c.rogelisprada@unesco-ihe.org">c.rogelisprada@unesco-ihe.org</a></td></tr>
-                  <tr><td>Micha Werner</td><td>Pays-Bas</td><td>IHE Delft / Deltares</td><td>Hydrologie operationnelle et co-auteur des methodes de priorisation pour Bogota.</td><td><a href="mailto:micha.werner@deltares.nl">micha.werner@deltares.nl</a></td></tr>
-                  <tr><td>Niny Johana Zamora</td><td>Colombie</td><td>IDIGER</td><td>Carte d'alea glissement de Bogota et methodes GIS/GRASS pour le POT.</td><td><a href="mailto:nzamora.idiger@gmail.com">nzamora.idiger@gmail.com</a></td></tr>
-                  <tr><td>German Vargas-Cuervo</td><td>Colombie</td><td>Universidad Nacional de Colombia</td><td>Geotechnologies, teledetection et evolution d'Altos de la Estancia.</td><td><a href="mailto:gvargasc@unal.edu.co">gvargasc@unal.edu.co</a></td></tr>
-                  <tr><td>Yolanda Teresa Hernandez-Pena</td><td>Colombie</td><td>Universidad Distrital Francisco Jose de Caldas</td><td>Gestion sociale du risque, reponses locales et risque complexe de glissement.</td><td><a href="mailto:ythernandezp@udistrital.edu.co">ythernandezp@udistrital.edu.co</a></td></tr>
-                  <tr><td>Carlos Alfonso Zafra-Mejia</td><td>Colombie</td><td>Universidad Distrital Francisco Jose de Caldas</td><td>Risque complexe, eau urbaine, pollution et planification environnementale.</td><td><a href="mailto:czafra@udistrital.edu.co">czafra@udistrital.edu.co</a></td></tr>
-                  <tr><td>Abby Daniela Ortega Sandoval</td><td>Colombie / Allemagne</td><td>University of Bonn - ZEF</td><td>SUDS, flood resilience, modelisation 1D/2D, barrieres et benefices.</td><td><a href="mailto:abby.os@uni-bonn.de">abby.os@uni-bonn.de</a></td></tr>
-                  <tr><td>Juan Pablo Rodriguez</td><td>Colombie</td><td>Universidad de los Andes - CIIA</td><td>SUDS, ecosystem services, hydrologie urbaine, qualite d'eau et solutions NBS.</td><td><a href="mailto:pabl-rod@uniandes.edu.co">pabl-rod@uniandes.edu.co</a></td></tr>
-                  <tr><td>Luis-Felipe Melgarejo</td><td>Colombie / Allemagne</td><td>Humboldt-Universitat zu Berlin</td><td>Abris temporaires, adaptation urbaine et crues fluviales en Colombie.</td><td><a href="mailto:melgfelip@gmail.com">melgfelip@gmail.com</a></td></tr>
-                  <tr><td>Juan Pablo Sarmiento</td><td>Colombie / Etats-Unis</td><td>Florida International University</td><td>Secteur prive, PME, continuite d'activite et disaster risk reduction dans les Ameriques.</td><td><a href="mailto:jsarmien@fiu.edu">jsarmien@fiu.edu</a></td></tr>
+                  <tr data-risk="gouvernance"><td>Austin Zeiderman</td><td>Etats-Unis / Royaume-Uni</td><td>London School of Economics</td><td>Gouvernement du risque, zones de haut risque, livre Endangered City.</td><td><a href="mailto:a.zeiderman@lse.ac.uk">a.zeiderman@lse.ac.uk</a></td></tr>
+                  <tr data-risk="climat gouvernance"><td>Arabella Fraser</td><td>Royaume-Uni</td><td>Open University</td><td>Vulnerabilite, savoirs techniques, adaptation et quartiers informels.</td><td><a href="mailto:arabella.fraser@open.ac.uk">arabella.fraser@open.ac.uk</a></td></tr>
+                  <tr data-risk="climat gouvernance"><td>Hugo Sarmiento</td><td>Etats-Unis / Colombie</td><td>Columbia GSAPP</td><td>Relogements climatiques Bogota Humana, justice spatiale et adaptation.</td><td><a href="https://crcl.columbia.edu/people/hugo-sarmiento" target="_blank" rel="noopener">profil Columbia</a></td></tr>
+                  <tr data-risk="mouvement climat gouvernance"><td>Duvan H. Lopez Meneses</td><td>Colombie / Espagne</td><td>UPC - UNESCO Chair on Sustainability</td><td>Arraigo, relogement, Altos de la Estancia, attribution du risque climatique.</td><td><a href="mailto:duvan.hernan.lopez@upc.edu">duvan.hernan.lopez@upc.edu</a></td></tr>
+                  <tr data-risk="gouvernance infrastructure"><td>Daniel Ricardo Calderon Ramirez</td><td>Colombie</td><td>Universidad Externado de Colombia</td><td>Analyse de reseaux et gouvernance du SDGR-CC de Bogota.</td><td><a href="mailto:daniel.calderon@uexternado.edu.co">daniel.calderon@uexternado.edu.co</a></td></tr>
+                  <tr data-risk="gouvernance"><td>Klaus Frey</td><td>Bresil / Allemagne</td><td>Universidade Federal do ABC</td><td>Co-auteur sur gouvernance interactive du risque a Bogota.</td><td><a href="mailto:klaus.frey@ufabc.edu.br">klaus.frey@ufabc.edu.br</a></td></tr>
+                  <tr data-risk="seisme gouvernance"><td>Omar D. Cardona</td><td>Colombie</td><td>Universidad Nacional de Colombia - IDEA Manizales</td><td>Microzonation, risque sismique holistique, CAPRA et politiques publiques.</td><td><a href="mailto:odcardonaa@unal.edu.co">odcardonaa@unal.edu.co</a></td></tr>
+                  <tr data-risk="seisme"><td>Luis E. Yamin</td><td>Colombie</td><td>Universidad de los Andes</td><td>Microzonation, pertes sismiques, ponts, lignes vitales et simulations 3D.</td><td><a href="mailto:lyamin@uniandes.edu.co">lyamin@uniandes.edu.co</a></td></tr>
+                  <tr data-risk="seisme"><td>Ana Beatriz Acevedo</td><td>Colombie</td><td>Universidad EAFIT</td><td>Risque sismique residentiel, modeles GEM/OpenQuake et portefeuilles urbains.</td><td><a href="mailto:aaceved14@eafit.edu.co">aaceved14@eafit.edu.co</a></td></tr>
+                  <tr data-risk="seisme"><td>Andrea C. Riano</td><td>Colombie / Etats-Unis</td><td>Universidad de los Andes; Carnegie Mellon</td><td>Modele crustal 3D et simulations sismiques large echelle pour Bogota.</td><td><a href="mailto:ac.riano384@uniandes.edu.co">ac.riano384@uniandes.edu.co</a></td></tr>
+                  <tr data-risk="inondation mouvement"><td>Maria Carolina Rogelis</td><td>Colombie / Pays-Bas</td><td>UNESCO-IHE / IHE Delft</td><td>Susceptibilite debris-flow et priorisation du risque d'inondation montagneux.</td><td><a href="mailto:c.rogelisprada@unesco-ihe.org">c.rogelisprada@unesco-ihe.org</a></td></tr>
+                  <tr data-risk="inondation"><td>Micha Werner</td><td>Pays-Bas</td><td>IHE Delft / Deltares</td><td>Hydrologie operationnelle et co-auteur des methodes de priorisation pour Bogota.</td><td><a href="mailto:micha.werner@deltares.nl">micha.werner@deltares.nl</a></td></tr>
+                  <tr data-risk="mouvement"><td>Niny Johana Zamora</td><td>Colombie</td><td>IDIGER</td><td>Carte d'alea glissement de Bogota et methodes GIS/GRASS pour le POT.</td><td><a href="mailto:nzamora.idiger@gmail.com">nzamora.idiger@gmail.com</a></td></tr>
+                  <tr data-risk="mouvement"><td>German Vargas-Cuervo</td><td>Colombie</td><td>Universidad Nacional de Colombia</td><td>Geotechnologies, teledetection et evolution d'Altos de la Estancia.</td><td><a href="mailto:gvargasc@unal.edu.co">gvargasc@unal.edu.co</a></td></tr>
+                  <tr data-risk="mouvement gouvernance urgence"><td>Yolanda Teresa Hernandez-Pena</td><td>Colombie</td><td>Universidad Distrital Francisco Jose de Caldas</td><td>Gestion sociale du risque, reponses locales et risque complexe de glissement.</td><td><a href="mailto:ythernandezp@udistrital.edu.co">ythernandezp@udistrital.edu.co</a></td></tr>
+                  <tr data-risk="inondation"><td>Carlos Alfonso Zafra-Mejia</td><td>Colombie</td><td>Universidad Distrital Francisco Jose de Caldas</td><td>Risque complexe, eau urbaine, pollution et planification environnementale.</td><td><a href="mailto:czafra@udistrital.edu.co">czafra@udistrital.edu.co</a></td></tr>
+                  <tr data-risk="inondation"><td>Abby Daniela Ortega Sandoval</td><td>Colombie / Allemagne</td><td>University of Bonn - ZEF</td><td>SUDS, flood resilience, modelisation 1D/2D, barrieres et benefices.</td><td><a href="mailto:abby.os@uni-bonn.de">abby.os@uni-bonn.de</a></td></tr>
+                  <tr data-risk="inondation"><td>Juan Pablo Rodriguez</td><td>Colombie</td><td>Universidad de los Andes - CIIA</td><td>SUDS, ecosystem services, hydrologie urbaine, qualite d'eau et solutions NBS.</td><td><a href="mailto:pabl-rod@uniandes.edu.co">pabl-rod@uniandes.edu.co</a></td></tr>
+                  <tr data-risk="inondation climat"><td>Luis-Felipe Melgarejo</td><td>Colombie / Allemagne</td><td>Humboldt-Universitat zu Berlin</td><td>Abris temporaires, adaptation urbaine et crues fluviales en Colombie.</td><td><a href="mailto:melgfelip@gmail.com">melgfelip@gmail.com</a></td></tr>
+                  <tr data-risk="gouvernance"><td>Juan Pablo Sarmiento</td><td>Colombie / Etats-Unis</td><td>Florida International University</td><td>Secteur prive, PME, continuite d'activite et disaster risk reduction dans les Ameriques.</td><td><a href="mailto:jsarmien@fiu.edu">jsarmien@fiu.edu</a></td></tr>
                 </tbody>
               </table>
             </div>
@@ -2071,26 +2106,26 @@
               <table class="researcher-table">
                 <thead><tr><th>Nom</th><th>Pays / ancrage</th><th>Universite / organisme</th><th>Apport scientifique clef</th><th>Contact public</th></tr></thead>
                 <tbody>
-                  <tr><td>Carmine Galasso</td><td>Royaume-Uni / Italie</td><td>UCL; IUSS Pavia</td><td>Risque multi-alea, Tomorrow's Cities, fragilite, decision support urbain.</td><td><a href="mailto:c.galasso@ucl.ac.uk">c.galasso@ucl.ac.uk</a> · <a href="https://www.ucl.ac.uk/engineering/civil-environmental-geomatic-engineering/people/academic-staff" target="_blank" rel="noopener">profil UCL</a></td></tr>
-                  <tr><td>Gemma Cremen</td><td>Royaume-Uni</td><td>University College London</td><td>Risque futur, incertitude, consequences multi-alea et selection de modeles d'impact.</td><td><a href="mailto:g.cremen@ucl.ac.uk">g.cremen@ucl.ac.uk</a> · <a href="https://www.gemmacremen.co.uk/" target="_blank" rel="noopener">site public</a></td></tr>
-                  <tr><td>Mark Pelling</td><td>Royaume-Uni</td><td>University College London</td><td>Gouvernance du risque, resilience urbaine, coproduction et approche pro-poor.</td><td><a href="mailto:mark.pelling@ucl.ac.uk">mark.pelling@ucl.ac.uk</a> · <a href="https://www.ucl.ac.uk/mathematical-physical-sciences/risk-disaster-reduction/people/academic-teaching-staff" target="_blank" rel="noopener">profil UCL</a></td></tr>
-                  <tr><td>John McCloskey</td><td>Royaume-Uni</td><td>University of Edinburgh</td><td>Geosciences du risque, Tomorrow's Cities et scenarios multi-alea.</td><td><a href="mailto:john.mccloskey@ed.ac.uk">john.mccloskey@ed.ac.uk</a> · <a href="https://tomorrowscities.org/" target="_blank" rel="noopener">Tomorrow's Cities</a></td></tr>
-                  <tr><td>Vitor Silva</td><td>Italie / Portugal</td><td>Global Earthquake Model Foundation</td><td>OpenQuake, modeles globaux de risque sismique, exposition et vulnerabilite.</td><td><a href="mailto:vitor.silva@globalquakemodel.org">vitor.silva@globalquakemodel.org</a> · <a href="https://www.globalquakemodel.org/our-team" target="_blank" rel="noopener">profil GEM</a></td></tr>
-                  <tr><td>Helen Crowley</td><td>Italie / Royaume-Uni</td><td>GEM; EUCENTRE</td><td>Modeles d'exposition et de risque sismique europeens et mondiaux.</td><td><a href="mailto:helen.crowley@globalquakemodel.org">helen.crowley@globalquakemodel.org</a> · <a href="https://www.globalquakemodel.org/our-team" target="_blank" rel="noopener">profil GEM</a></td></tr>
-                  <tr><td>Philip J. Ward</td><td>Pays-Bas</td><td>Vrije Universiteit Amsterdam - IVM</td><td>Risque d'inondation global, adaptation, pertes et modeles climatiques.</td><td><a href="mailto:philip.ward@vu.nl">philip.ward@vu.nl</a> · <a href="https://research.vu.nl/en/persons/philip-ward/" target="_blank" rel="noopener">profil VU</a></td></tr>
-                  <tr><td>Hessel C. Winsemius</td><td>Pays-Bas</td><td>Deltares</td><td>Modelisation hydrologique globale, risque de crue futur et services climatiques.</td><td><a href="mailto:hessel.winsemius@deltares.nl">hessel.winsemius@deltares.nl</a> · <a href="https://a.deltares.nl/en/expertise/our-people/hessel-winsemius" target="_blank" rel="noopener">profil Deltares</a></td></tr>
-                  <tr><td>Jeroen C. J. H. Aerts</td><td>Pays-Bas</td><td>Vrije Universiteit Amsterdam - IVM</td><td>Adaptation aux inondations, comportements humains et decisions sous risque.</td><td><a href="mailto:jeroen.aerts@vu.nl">jeroen.aerts@vu.nl</a> · <a href="https://research.vu.nl/en/persons/jeroen-aerts" target="_blank" rel="noopener">profil VU</a></td></tr>
-                  <tr><td>Elco E. Koks</td><td>Pays-Bas / Royaume-Uni</td><td>Institute for Environmental Studies; University of Oxford</td><td>Risques d'infrastructures critiques, reseaux de transport et pertes economiques.</td><td><a href="mailto:elco.koks@vu.nl">elco.koks@vu.nl</a> · <a href="https://research.vu.nl/en/persons/elco-koks" target="_blank" rel="noopener">profil VU</a></td></tr>
-                  <tr><td>Jakob Zscheischler</td><td>Allemagne / Suisse</td><td>UFZ; University of Leipzig</td><td>Evenements composes, dependances climatiques et risques extremes.</td><td><a href="mailto:jakob.zscheischler@ufz.de">jakob.zscheischler@ufz.de</a> · <a href="https://www.ufz.de/index.php?en=38591" target="_blank" rel="noopener">profil UFZ</a></td></tr>
-                  <tr><td>Sonia I. Seneviratne</td><td>Suisse</td><td>ETH Zurich</td><td>Extremes climatiques, attribution, risques composes et IPCC.</td><td><a href="mailto:sonia.seneviratne@ethz.ch">sonia.seneviratne@ethz.ch</a> · <a href="https://iac.ethz.ch/people-iac/person-detail.MjIzMDI=.TGlzdC8xMzY0LC0xNDUwNzU3NTIw.html" target="_blank" rel="noopener">profil ETH</a></td></tr>
-                  <tr><td>Amir AghaKouchak</td><td>Etats-Unis</td><td>University of California, Irvine</td><td>Hydroclimat, secheresse, extremes composes, statistiques de dependance.</td><td><a href="mailto:amir.a@uci.edu">amir.a@uci.edu</a> · <a href="https://amir.eng.uci.edu/" target="_blank" rel="noopener">site UCI</a></td></tr>
-                  <tr><td>Bruce D. Malamud</td><td>Royaume-Uni</td><td>Durham University</td><td>Statistiques des aleas, glissements, cascades et multi-hazard scenarios.</td><td><a href="mailto:bruce.malamud@durham.ac.uk">bruce.malamud@durham.ac.uk</a> · <a href="https://www.durham.ac.uk/staff/bruce-malamud/" target="_blank" rel="noopener">profil Durham</a></td></tr>
-                  <tr><td>Paola Reichenbach</td><td>Italie</td><td>CNR-IRPI</td><td>Cartographie de susceptibilite glissement, evaluation de qualite et validation.</td><td><a href="mailto:paola.reichenbach@cnr.it">paola.reichenbach@cnr.it</a> · <a href="https://www.irpi.cnr.it/en/staff-details//?ids=54" target="_blank" rel="noopener">profil CNR</a></td></tr>
-                  <tr><td>Fausto Guzzetti</td><td>Italie</td><td>CNR-IRPI</td><td>Inventaires, prediction et zonage des glissements; reference historique du domaine.</td><td><a href="mailto:Fausto.Guzzetti@irpi.cnr.it">Fausto.Guzzetti@irpi.cnr.it</a> · <a href="https://geomorphology.irpi.cnr.it/staff/fausto" target="_blank" rel="noopener">profil CNR</a></td></tr>
-                  <tr><td>Ryan Paulik</td><td>Nouvelle-Zelande</td><td>NIWA</td><td>RiskScape, exposition, impacts multi-alea et pipelines de risque geospatial.</td><td><a href="mailto:ryan.paulik@niwa.co.nz">ryan.paulik@niwa.co.nz</a> · <a href="https://niwa.co.nz/people/ryan-paulik" target="_blank" rel="noopener">profil NIWA</a></td></tr>
-                  <tr><td>Nick Horspool</td><td>Nouvelle-Zelande</td><td>GNS Science</td><td>RiskScape, hazard naturel, tsunami/seisme et modeles de pertes multi-alea.</td><td><a href="mailto:n.horspool@gns.cri.nz">n.horspool@gns.cri.nz</a> · <a href="https://www.gns.cri.nz/about-us/staff-search/nick-horspool/" target="_blank" rel="noopener">profil GNS</a></td></tr>
-                  <tr><td>Emanuele Bevacqua</td><td>Allemagne</td><td>UFZ / Helmholtz</td><td>Evenements composes, copules, inondations composees et attribution climatique.</td><td><a href="mailto:emanuele.bevacqua@ufz.de">emanuele.bevacqua@ufz.de</a> · <a href="https://www.ufz.eu/index.php?en=48534" target="_blank" rel="noopener">profil UFZ</a></td></tr>
-                  <tr><td>Beth Tellman</td><td>Etats-Unis</td><td>University of Arizona</td><td>Teledetection des inondations, exposition observee et bases de donnees globales.</td><td><a href="mailto:btellman@arizona.edu">btellman@arizona.edu</a> · <a href="https://profiles.arizona.edu/person/btellman" target="_blank" rel="noopener">profil Arizona</a></td></tr>
+                  <tr data-risk="multirisque"><td>Carmine Galasso</td><td>Royaume-Uni / Italie</td><td>UCL; IUSS Pavia</td><td>Risque multi-alea, Tomorrow's Cities, fragilite, decision support urbain.</td><td><a href="mailto:c.galasso@ucl.ac.uk">c.galasso@ucl.ac.uk</a> · <a href="https://www.ucl.ac.uk/engineering/civil-environmental-geomatic-engineering/people/academic-staff" target="_blank" rel="noopener">profil UCL</a></td></tr>
+                  <tr data-risk="multirisque"><td>Gemma Cremen</td><td>Royaume-Uni</td><td>University College London</td><td>Risque futur, incertitude, consequences multi-alea et selection de modeles d'impact.</td><td><a href="mailto:g.cremen@ucl.ac.uk">g.cremen@ucl.ac.uk</a> · <a href="https://www.gemmacremen.co.uk/" target="_blank" rel="noopener">site public</a></td></tr>
+                  <tr data-risk="gouvernance"><td>Mark Pelling</td><td>Royaume-Uni</td><td>University College London</td><td>Gouvernance du risque, resilience urbaine, coproduction et approche pro-poor.</td><td><a href="mailto:mark.pelling@ucl.ac.uk">mark.pelling@ucl.ac.uk</a> · <a href="https://www.ucl.ac.uk/mathematical-physical-sciences/risk-disaster-reduction/people/academic-teaching-staff" target="_blank" rel="noopener">profil UCL</a></td></tr>
+                  <tr data-risk="multirisque"><td>John McCloskey</td><td>Royaume-Uni</td><td>University of Edinburgh</td><td>Geosciences du risque, Tomorrow's Cities et scenarios multi-alea.</td><td><a href="mailto:john.mccloskey@ed.ac.uk">john.mccloskey@ed.ac.uk</a> · <a href="https://tomorrowscities.org/" target="_blank" rel="noopener">Tomorrow's Cities</a></td></tr>
+                  <tr data-risk="seisme gouvernance multirisque"><td>Vitor Silva</td><td>Italie / Portugal</td><td>Global Earthquake Model Foundation</td><td>OpenQuake, modeles globaux de risque sismique, exposition et vulnerabilite.</td><td><a href="mailto:vitor.silva@globalquakemodel.org">vitor.silva@globalquakemodel.org</a> · <a href="https://www.globalquakemodel.org/our-team" target="_blank" rel="noopener">profil GEM</a></td></tr>
+                  <tr data-risk="seisme multirisque"><td>Helen Crowley</td><td>Italie / Royaume-Uni</td><td>GEM; EUCENTRE</td><td>Modeles d'exposition et de risque sismique europeens et mondiaux.</td><td><a href="mailto:helen.crowley@globalquakemodel.org">helen.crowley@globalquakemodel.org</a> · <a href="https://www.globalquakemodel.org/our-team" target="_blank" rel="noopener">profil GEM</a></td></tr>
+                  <tr data-risk="inondation climat"><td>Philip J. Ward</td><td>Pays-Bas</td><td>Vrije Universiteit Amsterdam - IVM</td><td>Risque d'inondation global, adaptation, pertes et modeles climatiques.</td><td><a href="mailto:philip.ward@vu.nl">philip.ward@vu.nl</a> · <a href="https://research.vu.nl/en/persons/philip-ward/" target="_blank" rel="noopener">profil VU</a></td></tr>
+                  <tr data-risk="inondation climat"><td>Hessel C. Winsemius</td><td>Pays-Bas</td><td>Deltares</td><td>Modelisation hydrologique globale, risque de crue futur et services climatiques.</td><td><a href="mailto:hessel.winsemius@deltares.nl">hessel.winsemius@deltares.nl</a> · <a href="https://a.deltares.nl/en/expertise/our-people/hessel-winsemius" target="_blank" rel="noopener">profil Deltares</a></td></tr>
+                  <tr data-risk="inondation climat"><td>Jeroen C. J. H. Aerts</td><td>Pays-Bas</td><td>Vrije Universiteit Amsterdam - IVM</td><td>Adaptation aux inondations, comportements humains et decisions sous risque.</td><td><a href="mailto:jeroen.aerts@vu.nl">jeroen.aerts@vu.nl</a> · <a href="https://research.vu.nl/en/persons/jeroen-aerts" target="_blank" rel="noopener">profil VU</a></td></tr>
+                  <tr data-risk="infrastructure"><td>Elco E. Koks</td><td>Pays-Bas / Royaume-Uni</td><td>Institute for Environmental Studies; University of Oxford</td><td>Risques d'infrastructures critiques, reseaux de transport et pertes economiques.</td><td><a href="mailto:elco.koks@vu.nl">elco.koks@vu.nl</a> · <a href="https://research.vu.nl/en/persons/elco-koks" target="_blank" rel="noopener">profil VU</a></td></tr>
+                  <tr data-risk="climat"><td>Jakob Zscheischler</td><td>Allemagne / Suisse</td><td>UFZ; University of Leipzig</td><td>Evenements composes, dependances climatiques et risques extremes.</td><td><a href="mailto:jakob.zscheischler@ufz.de">jakob.zscheischler@ufz.de</a> · <a href="https://www.ufz.de/index.php?en=38591" target="_blank" rel="noopener">profil UFZ</a></td></tr>
+                  <tr data-risk="climat"><td>Sonia I. Seneviratne</td><td>Suisse</td><td>ETH Zurich</td><td>Extremes climatiques, attribution, risques composes et IPCC.</td><td><a href="mailto:sonia.seneviratne@ethz.ch">sonia.seneviratne@ethz.ch</a> · <a href="https://iac.ethz.ch/people-iac/person-detail.MjIzMDI=.TGlzdC8xMzY0LC0xNDUwNzU3NTIw.html" target="_blank" rel="noopener">profil ETH</a></td></tr>
+                  <tr data-risk="climat"><td>Amir AghaKouchak</td><td>Etats-Unis</td><td>University of California, Irvine</td><td>Hydroclimat, secheresse, extremes composes, statistiques de dependance.</td><td><a href="mailto:amir.a@uci.edu">amir.a@uci.edu</a> · <a href="https://amir.eng.uci.edu/" target="_blank" rel="noopener">site UCI</a></td></tr>
+                  <tr data-risk="mouvement multirisque"><td>Bruce D. Malamud</td><td>Royaume-Uni</td><td>Durham University</td><td>Statistiques des aleas, glissements, cascades et multi-hazard scenarios.</td><td><a href="mailto:bruce.malamud@durham.ac.uk">bruce.malamud@durham.ac.uk</a> · <a href="https://www.durham.ac.uk/staff/bruce-malamud/" target="_blank" rel="noopener">profil Durham</a></td></tr>
+                  <tr data-risk="mouvement"><td>Paola Reichenbach</td><td>Italie</td><td>CNR-IRPI</td><td>Cartographie de susceptibilite glissement, evaluation de qualite et validation.</td><td><a href="mailto:paola.reichenbach@cnr.it">paola.reichenbach@cnr.it</a> · <a href="https://www.irpi.cnr.it/en/staff-details//?ids=54" target="_blank" rel="noopener">profil CNR</a></td></tr>
+                  <tr data-risk="mouvement"><td>Fausto Guzzetti</td><td>Italie</td><td>CNR-IRPI</td><td>Inventaires, prediction et zonage des glissements; reference historique du domaine.</td><td><a href="mailto:Fausto.Guzzetti@irpi.cnr.it">Fausto.Guzzetti@irpi.cnr.it</a> · <a href="https://geomorphology.irpi.cnr.it/staff/fausto" target="_blank" rel="noopener">profil CNR</a></td></tr>
+                  <tr data-risk="multirisque"><td>Ryan Paulik</td><td>Nouvelle-Zelande</td><td>NIWA</td><td>RiskScape, exposition, impacts multi-alea et pipelines de risque geospatial.</td><td><a href="mailto:ryan.paulik@niwa.co.nz">ryan.paulik@niwa.co.nz</a> · <a href="https://niwa.co.nz/people/ryan-paulik" target="_blank" rel="noopener">profil NIWA</a></td></tr>
+                  <tr data-risk="seisme multirisque"><td>Nick Horspool</td><td>Nouvelle-Zelande</td><td>GNS Science</td><td>RiskScape, hazard naturel, tsunami/seisme et modeles de pertes multi-alea.</td><td><a href="mailto:n.horspool@gns.cri.nz">n.horspool@gns.cri.nz</a> · <a href="https://www.gns.cri.nz/about-us/staff-search/nick-horspool/" target="_blank" rel="noopener">profil GNS</a></td></tr>
+                  <tr data-risk="inondation climat"><td>Emanuele Bevacqua</td><td>Allemagne</td><td>UFZ / Helmholtz</td><td>Evenements composes, copules, inondations composees et attribution climatique.</td><td><a href="mailto:emanuele.bevacqua@ufz.de">emanuele.bevacqua@ufz.de</a> · <a href="https://www.ufz.eu/index.php?en=48534" target="_blank" rel="noopener">profil UFZ</a></td></tr>
+                  <tr data-risk="inondation multirisque"><td>Beth Tellman</td><td>Etats-Unis</td><td>University of Arizona</td><td>Teledetection des inondations, exposition observee et bases de donnees globales.</td><td><a href="mailto:btellman@arizona.edu">btellman@arizona.edu</a> · <a href="https://profiles.arizona.edu/person/btellman" target="_blank" rel="noopener">profil Arizona</a></td></tr>
                 </tbody>
               </table>
             </div>
@@ -2172,28 +2207,28 @@
               <table class="researcher-table">
                 <thead><tr><th>Nom</th><th>Pays / ancrage</th><th>Universite / organisme</th><th>Apport scientifique clef</th><th>Contact public</th></tr></thead>
                 <tbody>
-                  <tr><td>Eric Gaume</td><td>France</td><td>Universite Gustave Eiffel (GERS)</td><td>Crues eclair, inventaire europeen, hydrologie des bassins non jauges.</td><td><a href="mailto:eric.gaume@univ-eiffel.fr">eric.gaume@univ-eiffel.fr</a></td></tr>
-                  <tr><td>Olivier Payrastre</td><td>France</td><td>Universite Gustave Eiffel</td><td>Crues eclair, modelisation distribuee, alerte sur bassins non jauges.</td><td><a href="mailto:olivier.payrastre@univ-eiffel.fr">olivier.payrastre@univ-eiffel.fr</a></td></tr>
-                  <tr><td>Pierre Javelle</td><td>France</td><td>INRAE Aix-en-Provence (RECOVER)</td><td>Methode AIGA, alerte aux crues, pluie radar et seuils de debit.</td><td><a href="mailto:pierre.javelle@inrae.fr">pierre.javelle@inrae.fr</a></td></tr>
-                  <tr><td>Freddy Vinet</td><td>France</td><td>Universite Paul-Valery Montpellier 3 (GRED)</td><td>Mortalite par inondation, crues eclair, bases de donnees de victimes.</td><td><a href="mailto:freddy.vinet@univ-montp3.fr">freddy.vinet@univ-montp3.fr</a></td></tr>
-                  <tr><td>David Moncoulon</td><td>France</td><td>Caisse Centrale de Reassurance (CCR)</td><td>Modeles de pertes CatNat : inondation, submersion marine et secheresse.</td><td><a href="https://www.ccr.fr/" target="_blank" rel="noopener">CCR / modelisation</a></td></tr>
-                  <tr><td>Nicolas Eckert</td><td>France</td><td>INRAE / IGE Grenoble (ETNA)</td><td>Risque d'avalanche, statistiques d'extremes, effets du climat et de la foret.</td><td><a href="mailto:nicolas.eckert@inrae.fr">nicolas.eckert@inrae.fr</a></td></tr>
-                  <tr><td>Mohamed Naaim</td><td>France</td><td>INRAE Grenoble (ETNA)</td><td>Dynamique des avalanches et des ecoulements gravitaires rapides.</td><td><a href="mailto:mohamed.naaim@inrae.fr">mohamed.naaim@inrae.fr</a></td></tr>
-                  <tr><td>Deborah Idier</td><td>France</td><td>BRGM Orleans</td><td>Submersion marine, surcotes, metamodeles et incertitudes cotieres.</td><td><a href="mailto:d.idier@brgm.fr">d.idier@brgm.fr</a></td></tr>
-                  <tr><td>Goneri Le Cozannet</td><td>France</td><td>BRGM Orleans</td><td>Elevation du niveau marin, risques cotiers, adaptation (GIEC AR6).</td><td><a href="mailto:g.lecozannet@brgm.fr">g.lecozannet@brgm.fr</a></td></tr>
-                  <tr><td>Jeremy Rohmer</td><td>France</td><td>BRGM Orleans</td><td>Incertitudes, approches probabilistes, metamodeles et analyse de sensibilite.</td><td><a href="mailto:j.rohmer@brgm.fr">j.rohmer@brgm.fr</a></td></tr>
-                  <tr><td>Jean-Philippe Malet</td><td>France</td><td>ITES / EOST, CNRS - Universite de Strasbourg</td><td>Glissements de terrain, laves torrentielles, susceptibilite et surveillance.</td><td><a href="mailto:jeanphilippe.malet@unistra.fr">jeanphilippe.malet@unistra.fr</a></td></tr>
-                  <tr><td>Yannick Thiery</td><td>France</td><td>BRGM</td><td>Susceptibilite aux mouvements de terrain et cartographie de l'alea.</td><td><a href="mailto:y.thiery@brgm.fr">y.thiery@brgm.fr</a></td></tr>
-                  <tr><td>Philippe Gueguen</td><td>France</td><td>ISTerre, Universite Grenoble Alpes</td><td>Vulnerabilite sismique du bati, courbes de fragilite, echelle urbaine.</td><td><a href="mailto:philippe.gueguen@univ-grenoble-alpes.fr">philippe.gueguen@univ-grenoble-alpes.fr</a></td></tr>
-                  <tr><td>Caroline Beauval</td><td>France</td><td>ISTerre / IRD Grenoble</td><td>Alea sismique probabiliste, GMPE, arbres logiques et incertitudes.</td><td><a href="mailto:caroline.beauval@univ-grenoble-alpes.fr">caroline.beauval@univ-grenoble-alpes.fr</a></td></tr>
-                  <tr><td>John Douglas</td><td>Royaume-Uni / France</td><td>University of Strathclyde (ex-BRGM)</td><td>Equations de prediction du mouvement du sol, alea sismique de la France.</td><td><a href="mailto:john.douglas@strath.ac.uk">john.douglas@strath.ac.uk</a></td></tr>
-                  <tr><td>Thomas Curt</td><td>France</td><td>INRAE Aix-en-Provence (RECOVER)</td><td>Feux de foret, regimes de feu, causes d'allumage et prevention.</td><td><a href="mailto:thomas.curt@inrae.fr">thomas.curt@inrae.fr</a></td></tr>
-                  <tr><td>Jean-Christophe Komorowski</td><td>France</td><td>IPGP, Universite Paris Cite</td><td>Alea volcanique, La Soufriere, scenarios eruptifs et modelisation d'impacts.</td><td><a href="mailto:komorowski@ipgp.fr">komorowski@ipgp.fr</a></td></tr>
-                  <tr><td>Vazken Andreassian</td><td>France</td><td>INRAE Antony (HYCAR)</td><td>Modeles hydrologiques GR, prevision des debits, hydrologie comparative.</td><td><a href="mailto:vazken.andreassian@inrae.fr">vazken.andreassian@inrae.fr</a></td></tr>
-                  <tr><td>Jean-Philippe Vidal</td><td>France</td><td>INRAE Lyon (RiverLy)</td><td>Secheresse, projections climatiques et hydrologiques, projet Explore2.</td><td><a href="mailto:jean-philippe.vidal@inrae.fr">jean-philippe.vidal@inrae.fr</a></td></tr>
-                  <tr><td>Bruno Castelle</td><td>France</td><td>CNRS / Universite de Bordeaux (EPOC)</td><td>Erosion cotiere, dynamique des plages sableuses, traits de cote.</td><td><a href="mailto:bruno.castelle@u-bordeaux.fr">bruno.castelle@u-bordeaux.fr</a></td></tr>
-                  <tr><td>Celine Grislain-Letremy</td><td>France</td><td>Universite Paris-Dauphine / Banque de France</td><td>Economie de l'assurance des catastrophes naturelles, regime CatNat.</td><td><a href="https://www.banque-france.fr/" target="_blank" rel="noopener">profil public</a></td></tr>
-                  <tr><td>Arthur Charpentier</td><td>Canada / France</td><td>UQAM (ex-Univ. Rennes)</td><td>Actuariat, modeles statistiques du risque de secheresse et de subsidence.</td><td><a href="https://freakonometrics.hypotheses.org/" target="_blank" rel="noopener">site public</a></td></tr>
+                  <tr data-risk="inondation"><td>Eric Gaume</td><td>France</td><td>Universite Gustave Eiffel (GERS)</td><td>Crues eclair, inventaire europeen, hydrologie des bassins non jauges.</td><td><a href="mailto:eric.gaume@univ-eiffel.fr">eric.gaume@univ-eiffel.fr</a></td></tr>
+                  <tr data-risk="inondation urgence"><td>Olivier Payrastre</td><td>France</td><td>Universite Gustave Eiffel</td><td>Crues eclair, modelisation distribuee, alerte sur bassins non jauges.</td><td><a href="mailto:olivier.payrastre@univ-eiffel.fr">olivier.payrastre@univ-eiffel.fr</a></td></tr>
+                  <tr data-risk="inondation urgence"><td>Pierre Javelle</td><td>France</td><td>INRAE Aix-en-Provence (RECOVER)</td><td>Methode AIGA, alerte aux crues, pluie radar et seuils de debit.</td><td><a href="mailto:pierre.javelle@inrae.fr">pierre.javelle@inrae.fr</a></td></tr>
+                  <tr data-risk="inondation gouvernance"><td>Freddy Vinet</td><td>France</td><td>Universite Paul-Valery Montpellier 3 (GRED)</td><td>Mortalite par inondation, crues eclair, bases de donnees de victimes.</td><td><a href="mailto:freddy.vinet@univ-montp3.fr">freddy.vinet@univ-montp3.fr</a></td></tr>
+                  <tr data-risk="inondation climat gouvernance"><td>David Moncoulon</td><td>France</td><td>Caisse Centrale de Reassurance (CCR)</td><td>Modeles de pertes CatNat : inondation, submersion marine et secheresse.</td><td><a href="https://www.ccr.fr/" target="_blank" rel="noopener">CCR / modelisation</a></td></tr>
+                  <tr data-risk="climat avalanche"><td>Nicolas Eckert</td><td>France</td><td>INRAE / IGE Grenoble (ETNA)</td><td>Risque d'avalanche, statistiques d'extremes, effets du climat et de la foret.</td><td><a href="mailto:nicolas.eckert@inrae.fr">nicolas.eckert@inrae.fr</a></td></tr>
+                  <tr data-risk="avalanche"><td>Mohamed Naaim</td><td>France</td><td>INRAE Grenoble (ETNA)</td><td>Dynamique des avalanches et des ecoulements gravitaires rapides.</td><td><a href="mailto:mohamed.naaim@inrae.fr">mohamed.naaim@inrae.fr</a></td></tr>
+                  <tr data-risk="inondation multirisque"><td>Deborah Idier</td><td>France</td><td>BRGM Orleans</td><td>Submersion marine, surcotes, metamodeles et incertitudes cotieres.</td><td><a href="mailto:d.idier@brgm.fr">d.idier@brgm.fr</a></td></tr>
+                  <tr data-risk="inondation climat"><td>Goneri Le Cozannet</td><td>France</td><td>BRGM Orleans</td><td>Elevation du niveau marin, risques cotiers, adaptation (GIEC AR6).</td><td><a href="mailto:g.lecozannet@brgm.fr">g.lecozannet@brgm.fr</a></td></tr>
+                  <tr data-risk="inondation multirisque"><td>Jeremy Rohmer</td><td>France</td><td>BRGM Orleans</td><td>Incertitudes, approches probabilistes et metamodeles pour la submersion marine.</td><td><a href="mailto:j.rohmer@brgm.fr">j.rohmer@brgm.fr</a></td></tr>
+                  <tr data-risk="mouvement"><td>Jean-Philippe Malet</td><td>France</td><td>ITES / EOST, CNRS - Universite de Strasbourg</td><td>Glissements de terrain, laves torrentielles, susceptibilite et surveillance.</td><td><a href="mailto:jeanphilippe.malet@unistra.fr">jeanphilippe.malet@unistra.fr</a></td></tr>
+                  <tr data-risk="mouvement"><td>Yannick Thiery</td><td>France</td><td>BRGM</td><td>Susceptibilite aux mouvements de terrain et cartographie de l'alea.</td><td><a href="mailto:y.thiery@brgm.fr">y.thiery@brgm.fr</a></td></tr>
+                  <tr data-risk="seisme gouvernance"><td>Philippe Gueguen</td><td>France</td><td>ISTerre, Universite Grenoble Alpes</td><td>Vulnerabilite sismique du bati, courbes de fragilite, echelle urbaine.</td><td><a href="mailto:philippe.gueguen@univ-grenoble-alpes.fr">philippe.gueguen@univ-grenoble-alpes.fr</a></td></tr>
+                  <tr data-risk="seisme multirisque"><td>Caroline Beauval</td><td>France</td><td>ISTerre / IRD Grenoble</td><td>Alea sismique probabiliste, GMPE, arbres logiques et incertitudes.</td><td><a href="mailto:caroline.beauval@univ-grenoble-alpes.fr">caroline.beauval@univ-grenoble-alpes.fr</a></td></tr>
+                  <tr data-risk="seisme"><td>John Douglas</td><td>Royaume-Uni / France</td><td>University of Strathclyde (ex-BRGM)</td><td>Equations de prediction du mouvement du sol, alea sismique de la France.</td><td><a href="mailto:john.douglas@strath.ac.uk">john.douglas@strath.ac.uk</a></td></tr>
+                  <tr data-risk="feu"><td>Thomas Curt</td><td>France</td><td>INRAE Aix-en-Provence (RECOVER)</td><td>Feux de foret, regimes de feu, causes d'allumage et prevention.</td><td><a href="mailto:thomas.curt@inrae.fr">thomas.curt@inrae.fr</a></td></tr>
+                  <tr data-risk="volcan"><td>Jean-Christophe Komorowski</td><td>France</td><td>IPGP, Universite Paris Cite</td><td>Alea volcanique, La Soufriere, scenarios eruptifs et modelisation d'impacts.</td><td><a href="mailto:komorowski@ipgp.fr">komorowski@ipgp.fr</a></td></tr>
+                  <tr data-risk="inondation"><td>Vazken Andreassian</td><td>France</td><td>INRAE Antony (HYCAR)</td><td>Modeles hydrologiques GR, prevision des debits, hydrologie comparative.</td><td><a href="mailto:vazken.andreassian@inrae.fr">vazken.andreassian@inrae.fr</a></td></tr>
+                  <tr data-risk="inondation climat"><td>Jean-Philippe Vidal</td><td>France</td><td>INRAE Lyon (RiverLy)</td><td>Secheresse, projections climatiques et hydrologiques, projet Explore2.</td><td><a href="mailto:jean-philippe.vidal@inrae.fr">jean-philippe.vidal@inrae.fr</a></td></tr>
+                  <tr data-risk="inondation"><td>Bruno Castelle</td><td>France</td><td>CNRS / Universite de Bordeaux (EPOC)</td><td>Erosion cotiere, dynamique des plages sableuses, traits de cote.</td><td><a href="mailto:bruno.castelle@u-bordeaux.fr">bruno.castelle@u-bordeaux.fr</a></td></tr>
+                  <tr data-risk="gouvernance"><td>Celine Grislain-Letremy</td><td>France</td><td>Universite Paris-Dauphine / Banque de France</td><td>Economie de l'assurance des catastrophes naturelles, regime CatNat.</td><td><a href="https://www.banque-france.fr/" target="_blank" rel="noopener">profil public</a></td></tr>
+                  <tr data-risk="mouvement climat"><td>Arthur Charpentier</td><td>Canada / France</td><td>UQAM (ex-Univ. Rennes)</td><td>Actuariat, modeles statistiques du risque de secheresse et de subsidence.</td><td><a href="https://freakonometrics.hypotheses.org/" target="_blank" rel="noopener">site public</a></td></tr>
                 </tbody>
               </table>
             </div>
@@ -3063,7 +3098,7 @@
       "Dynamique des avalanches et des ecoulements gravitaires rapides.": "Dinamica de las avalanchas y de los flujos gravitatorios rapidos.",
       "Submersion marine, surcotes, metamodeles et incertitudes cotieres.": "Sumersion marina, sobreelevaciones, metamodelos e incertidumbres costeras.",
       "Elevation du niveau marin, risques cotiers, adaptation (GIEC AR6).": "Ascenso del nivel del mar, riesgos costeros, adaptacion (IPCC AR6).",
-      "Incertitudes, approches probabilistes, metamodeles et analyse de sensibilite.": "Incertidumbres, enfoques probabilistas, metamodelos y analisis de sensibilidad.",
+      "Incertitudes, approches probabilistes et metamodeles pour la submersion marine.": "Incertidumbres, enfoques probabilistas y metamodelos para la sumersion marina.",
       "Glissements de terrain, laves torrentielles, susceptibilite et surveillance.": "Deslizamientos, flujos de derrubios, susceptibilidad y monitoreo.",
       "Susceptibilite aux mouvements de terrain et cartographie de l'alea.": "Susceptibilidad a movimientos de terreno y cartografia de la amenaza.",
       "Vulnerabilite sismique du bati, courbes de fragilite, echelle urbaine.": "Vulnerabilidad sismica del edificado, curvas de fragilidad, escala urbana.",
@@ -3100,8 +3135,7 @@
     }
 
     function setHeaderText(lang) {
-      const bundle = PAGE[lang] || PAGE.fr;
-      $("#page-title").textContent = bundle.title;
+      // Le titre est statique (typographie soignee) ; on n'actualise que le sous-titre.
       const sub = SUBTITLES[activePanelId()] || SUBTITLES.colombie;
       $("#page-subtitle").textContent = sub[lang] || sub.fr;
     }
@@ -3132,15 +3166,57 @@
     }
 
     function buildFilters() {
-      $$(".academia-panel").forEach(panel => {
-        const list = panel.querySelector(".paper-list");
-        if (!list) return;
-        const cards = Array.from(list.querySelectorAll(".paper-card"));
+      const view = $("#academie");
+      const tabIds = [...new Set($$(".academia-panel", view).map(p => p.dataset.academiaPanelId))];
+      tabIds.forEach(tabId => {
+        const panels = $$('.academia-panel[data-academia-panel-id="' + tabId + '"]', view);
+        const papersPanel = panels.find(p => p.querySelector(".paper-list"));
+        if (!papersPanel) return;
+        const cards = Array.from(papersPanel.querySelectorAll(".paper-card"));
+        const rows = panels.reduce((acc, p) =>
+          acc.concat(Array.from(p.querySelectorAll(".researcher-table tbody tr"))), []);
+        const statEls = Array.from(papersPanel.querySelectorAll(".academia-stat strong"));
+        const baseStats = statEls.map(e => e.textContent);
         const present = new Set(cards.map(c => c.dataset.risk).filter(Boolean));
         const slugs = RISK_ORDER.filter(s => s === "general" || present.has(s));
+
+        function rowRisks(r) { return (r.dataset.risk || "").split(" ").filter(Boolean); }
+
+        function applyFilter(slug) {
+          cards.forEach(c => {
+            c.style.display = (slug === "general" || c.dataset.risk === slug) ? "" : "none";
+          });
+          rows.forEach(r => {
+            r.style.display = (slug === "general" || rowRisks(r).includes(slug)) ? "" : "none";
+          });
+          if (slug === "general") {
+            statEls.forEach((e, i) => { e.textContent = baseStats[i]; });
+            return;
+          }
+          const visCards = cards.filter(c => c.dataset.risk === slug);
+          const visRows = rows.filter(r => rowRisks(r).includes(slug));
+          const years = visCards
+            .map(c => parseInt((c.querySelector(".paper-meta span") || {}).textContent, 10))
+            .filter(n => !isNaN(n));
+          if (statEls[0]) statEls[0].textContent = String(visCards.length);
+          if (statEls[1]) {
+            if (years.length) {
+              const mn = Math.min(...years), mx = Math.max(...years);
+              statEls[1].textContent = mn === mx ? String(mn) : mn + "-" + mx;
+            } else statEls[1].textContent = "—";
+          }
+          if (statEls[2]) statEls[2].textContent = "1";
+          if (statEls[3]) statEls[3].textContent = String(visRows.length);
+        }
+
+        const host = document.createElement("div");
+        host.className = "academia-panel filter-host" + (papersPanel.classList.contains("active") ? " active" : "");
+        host.dataset.academiaPanelId = tabId;
         const bar = document.createElement("div");
         bar.className = "filter-bar";
         bar.setAttribute("role", "tablist");
+        host.appendChild(bar);
+
         slugs.forEach((slug, i) => {
           const label = RISK_LABELS[slug] || { fr: slug, es: slug };
           const btn = document.createElement("button");
@@ -3152,13 +3228,12 @@
           btn.textContent = label[currentLang] || label.fr;
           btn.addEventListener("click", () => {
             bar.querySelectorAll(".filter-pill").forEach(p => p.classList.toggle("active", p === btn));
-            cards.forEach(c => {
-              c.style.display = (slug === "general" || c.dataset.risk === slug) ? "" : "none";
-            });
+            applyFilter(slug);
           });
           bar.appendChild(btn);
         });
-        list.parentNode.insertBefore(bar, list);
+
+        panels[0].parentNode.insertBefore(host, panels[0]);
       });
     }
 

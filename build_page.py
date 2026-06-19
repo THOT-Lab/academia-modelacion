@@ -40,12 +40,44 @@ css += """
       .partner-band img { height: 17px; }
     }
 
+    /* En-tete non fixe (defile avec la page) */
+    header {
+      position: static;
+      backdrop-filter: none;
+    }
+    /* Titre : typographie soignee */
+    #page-title {
+      font-family: "Fraunces", Georgia, "Times New Roman", serif;
+      font-size: 44px;
+      font-weight: 600;
+      line-height: 1.02;
+      letter-spacing: -0.015em;
+      margin: 0 0 4px;
+    }
+    #page-title .t2 {
+      color: var(--cyan);
+      font-style: italic;
+      font-weight: 500;
+    }
+    /* Bande de logos + langues empilees a droite */
+    .toolbar {
+      flex-direction: column;
+      align-items: flex-end;
+      gap: 10px;
+    }
+    .partner-band { margin-bottom: 0; }
+    @media (max-width: 720px) {
+      .toolbar { align-items: flex-start; }
+      #page-title { font-size: 34px; }
+    }
+
     /* Pastilles de filtrage par type de risque */
+    .filter-host.academia-panel { padding: 0; }
     .filter-bar {
       display: flex;
       flex-wrap: wrap;
       gap: 7px;
-      margin: 2px 0 16px;
+      margin: 0 0 16px;
     }
     .filter-pill {
       min-height: 30px;
@@ -121,6 +153,46 @@ _mi = panels.index(_mon_marker)
 panels = (inject_risk(panels[:_mi], COL_ACCENT, COL_TAG)
           + inject_risk(panels[_mi:], MON_ACCENT, MON_TAG))
 assert 'data-risk=' in panels, "data-risk Colombie/Monde non injectes"
+
+# --- Classement des CHERCHEURS par mots-cles (pour filtrer les auteurs) -----
+import unicodedata
+RISK_ORDER_PY = ['seisme','inondation','mouvement','climat','avalanche','feu',
+                 'volcan','gouvernance','infrastructure','urgence','sante','multirisque']
+RISK_KEYWORDS = {
+ 'seisme':['sismi','seismic','seism','microzon','gmpe','earthquake','sismo','pushover','lignes vitales','ponts'],
+ 'inondation':['inondation','flood','crue','suds','drainage','eau urbain','cote','coast','submersion',
+               'sea level','niveau marin','hydrolog','pluvi','littoral','surge','surcote','runoff','river',
+               'marine flooding','aiga','nappe','plages'],
+ 'mouvement':['glissement','landslide','remocion','debris flow','debris-flow','mouvements de terrain',
+              'movimiento en masa','susceptibilit','laves torrentielles','subsidence','retrait-gonflement',
+              'insar','slope','estancia','geotechnolog'],
+ 'climat':['climat','climate','compound','compose','secheresse','sequia','drought','adaptation','extreme','ecoclimat'],
+ 'avalanche':['avalanche','avalancha','neige','snow'],
+ 'feu':['feu de foret','feux','wildfire','incendi','forest fire','allumage'],
+ 'volcan':['volcan','soufri','volcanic','eruptiv'],
+ 'gouvernance':['gouvernance','gouvernement','governance','politique','relogement','reasent','vulnerabilit',
+                'citoyen','gobernanza','assurance','insurance','reassurance','catnat','economie','mortalit',
+                'justice','arraigo','genre','pro-poor','secteur prive','social','haut risque'],
+ 'infrastructure':['infrastructure','reseaux','road','railway','network','telecom','bridge'],
+ 'urgence':['urgence','emergenc','evacuation','reponse','respuesta','logistique','early warning','alerte'],
+ 'sante':['sante','salud','health','pandemic','covid','pathogen','medical','sanitaire'],
+ 'multirisque':['multi-risque','multirriesgo','multi-hazard','multi-alea','riskscape','tomorrow',
+                'exposition','exposure','impact model','cascad','metamodel','incertitude'],
+}
+def _norm(s):
+    s = unicodedata.normalize('NFKD', s)
+    return ''.join(c for c in s if not unicodedata.combining(c)).lower()
+def classify(text):
+    t = _norm(text)
+    return ' '.join(s for s in RISK_ORDER_PY
+                    if any(k in t for k in RISK_KEYWORDS[s]))
+
+def _tag_row(m):
+    inner = m.group(1)
+    text = re.sub(r'<[^>]+>', ' ', inner)
+    return f'<tr data-risk="{classify(text)}">{inner}</tr>'
+panels = re.sub(r'<tr>(<td>.*?</td>)</tr>', _tag_row, panels)
+assert '<tr data-risk=' in panels, "data-risk chercheurs Colombie/Monde non injectes"
 
 # --- 3. Dictionnaire textES existant ---------------------------------------
 t0 = html.index("const textES = {")
@@ -415,8 +487,8 @@ researchers = [
   "Ascenso del nivel del mar, riesgos costeros, adaptacion (IPCC AR6).",
   '<a href="mailto:g.lecozannet@brgm.fr">g.lecozannet@brgm.fr</a>'),
  ("Jeremy Rohmer","France","Francia","BRGM Orleans","BRGM Orleans",
-  "Incertitudes, approches probabilistes, metamodeles et analyse de sensibilite.",
-  "Incertidumbres, enfoques probabilistas, metamodelos y analisis de sensibilidad.",
+  "Incertitudes, approches probabilistes et metamodeles pour la submersion marine.",
+  "Incertidumbres, enfoques probabilistas y metamodelos para la sumersion marina.",
   '<a href="mailto:j.rohmer@brgm.fr">j.rohmer@brgm.fr</a>'),
  ("Jean-Philippe Malet","France","Francia","ITES / EOST, CNRS - Universite de Strasbourg","ITES / EOST, CNRS - Universite de Strasbourg",
   "Glissements de terrain, laves torrentielles, susceptibilite et surveillance.",
@@ -489,8 +561,9 @@ cards_html = "\n              ".join(cards)
 
 rows = []
 for (nom, pfr, pes, ifr, ies, wfr, wes, contact) in researchers:
+    slugs = classify(nom + ' ' + wfr + ' ' + ifr)
     rows.append(
-        f'<tr><td>{nom}</td><td>{pfr}</td><td>{ifr}</td><td>{wfr}</td><td>{contact}</td></tr>'
+        f'<tr data-risk="{slugs}"><td>{nom}</td><td>{pfr}</td><td>{ifr}</td><td>{wfr}</td><td>{contact}</td></tr>'
     )
 rows_html = "\n                  ".join(rows)
 
@@ -590,7 +663,10 @@ page = f'''<!doctype html>
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>IDIGER | Academia y modelacion</title>
+  <title>IDIGER | Academia y modelación</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,500;0,9..144,600;1,9..144,500&display=swap" rel="stylesheet" />
   <style>{css}</style>
 </head>
 <body>
@@ -598,13 +674,13 @@ page = f'''<!doctype html>
     <header>
       <div class="topline">
         <div>
-          <div class="partner-band">
-            <img src="assets/logos/partner-band.png" alt="IGN FI · 3E Conseils · THOT · Alcaldia Mayor de Bogota / IDIGER · AFD" />
-          </div>
-          <h2 id="page-title">Academia y modelacion</h2>
+          <h2 id="page-title"><span class="t1">Academia y</span> <span class="t2">modelación</span></h2>
           <p class="subtitle" id="page-subtitle">Corpus mondial sur la gestion et la modelisation des risques : articles, theses et chercheurs de reference.</p>
         </div>
         <div class="toolbar">
+          <div class="partner-band">
+            <img src="assets/logos/partner-band.png" alt="IGN FI · 3E Conseils · THOT · Alcaldia Mayor de Bogota / IDIGER · AFD" />
+          </div>
           <div class="lang-switch" aria-label="Langue">
             <button class="lang-btn active" type="button" data-lang="fr">FR</button>
             <button class="lang-btn" type="button" data-lang="es">ES</button>
@@ -695,8 +771,7 @@ page += '''
     }
 
     function setHeaderText(lang) {
-      const bundle = PAGE[lang] || PAGE.fr;
-      $("#page-title").textContent = bundle.title;
+      // Le titre est statique (typographie soignee) ; on n'actualise que le sous-titre.
       const sub = SUBTITLES[activePanelId()] || SUBTITLES.colombie;
       $("#page-subtitle").textContent = sub[lang] || sub.fr;
     }
@@ -727,15 +802,57 @@ page += '''
     }
 
     function buildFilters() {
-      $$(".academia-panel").forEach(panel => {
-        const list = panel.querySelector(".paper-list");
-        if (!list) return;
-        const cards = Array.from(list.querySelectorAll(".paper-card"));
+      const view = $("#academie");
+      const tabIds = [...new Set($$(".academia-panel", view).map(p => p.dataset.academiaPanelId))];
+      tabIds.forEach(tabId => {
+        const panels = $$('.academia-panel[data-academia-panel-id="' + tabId + '"]', view);
+        const papersPanel = panels.find(p => p.querySelector(".paper-list"));
+        if (!papersPanel) return;
+        const cards = Array.from(papersPanel.querySelectorAll(".paper-card"));
+        const rows = panels.reduce((acc, p) =>
+          acc.concat(Array.from(p.querySelectorAll(".researcher-table tbody tr"))), []);
+        const statEls = Array.from(papersPanel.querySelectorAll(".academia-stat strong"));
+        const baseStats = statEls.map(e => e.textContent);
         const present = new Set(cards.map(c => c.dataset.risk).filter(Boolean));
         const slugs = RISK_ORDER.filter(s => s === "general" || present.has(s));
+
+        function rowRisks(r) { return (r.dataset.risk || "").split(" ").filter(Boolean); }
+
+        function applyFilter(slug) {
+          cards.forEach(c => {
+            c.style.display = (slug === "general" || c.dataset.risk === slug) ? "" : "none";
+          });
+          rows.forEach(r => {
+            r.style.display = (slug === "general" || rowRisks(r).includes(slug)) ? "" : "none";
+          });
+          if (slug === "general") {
+            statEls.forEach((e, i) => { e.textContent = baseStats[i]; });
+            return;
+          }
+          const visCards = cards.filter(c => c.dataset.risk === slug);
+          const visRows = rows.filter(r => rowRisks(r).includes(slug));
+          const years = visCards
+            .map(c => parseInt((c.querySelector(".paper-meta span") || {}).textContent, 10))
+            .filter(n => !isNaN(n));
+          if (statEls[0]) statEls[0].textContent = String(visCards.length);
+          if (statEls[1]) {
+            if (years.length) {
+              const mn = Math.min(...years), mx = Math.max(...years);
+              statEls[1].textContent = mn === mx ? String(mn) : mn + "-" + mx;
+            } else statEls[1].textContent = "—";
+          }
+          if (statEls[2]) statEls[2].textContent = "1";
+          if (statEls[3]) statEls[3].textContent = String(visRows.length);
+        }
+
+        const host = document.createElement("div");
+        host.className = "academia-panel filter-host" + (papersPanel.classList.contains("active") ? " active" : "");
+        host.dataset.academiaPanelId = tabId;
         const bar = document.createElement("div");
         bar.className = "filter-bar";
         bar.setAttribute("role", "tablist");
+        host.appendChild(bar);
+
         slugs.forEach((slug, i) => {
           const label = RISK_LABELS[slug] || { fr: slug, es: slug };
           const btn = document.createElement("button");
@@ -747,13 +864,12 @@ page += '''
           btn.textContent = label[currentLang] || label.fr;
           btn.addEventListener("click", () => {
             bar.querySelectorAll(".filter-pill").forEach(p => p.classList.toggle("active", p === btn));
-            cards.forEach(c => {
-              c.style.display = (slug === "general" || c.dataset.risk === slug) ? "" : "none";
-            });
+            applyFilter(slug);
           });
           bar.appendChild(btn);
         });
-        list.parentNode.insertBefore(bar, list);
+
+        panels[0].parentNode.insertBefore(host, panels[0]);
       });
     }
 
