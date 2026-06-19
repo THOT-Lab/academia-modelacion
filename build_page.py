@@ -52,12 +52,8 @@ css += """
       font-weight: 600;
       line-height: 1.02;
       letter-spacing: -0.015em;
+      color: var(--navy);
       margin: 0 0 4px;
-    }
-    #page-title .t2 {
-      color: var(--cyan);
-      font-style: italic;
-      font-weight: 500;
     }
     /* Bande de logos + langues empilees a droite */
     .toolbar {
@@ -127,7 +123,9 @@ FAM2RISK = {'hydrologie':'inondation','seisme':'seisme','inondation':'inondation
             'crue eclair':'inondation','avalanche':'avalanche','secheresse':'climat',
             'assurance':'gouvernance','volcan':'volcan','cotier':'inondation',
             'submersion':'inondation','glissement':'mouvement','feu de foret':'feu',
-            'retrait-gonflement':'mouvement','mortalite':'gouvernance','gouvernance':'gouvernance'}
+            'retrait-gonflement':'mouvement','mortalite':'gouvernance','gouvernance':'gouvernance',
+            'canicule':'climat','tsunami':'tsunami','tempete':'climat','NaTech':'multirisque',
+            'ilot de chaleur':'climat','eau urbaine':'inondation'}
 
 def _resolve(accent, tag, accent_map, tag_map):
     a = accent.replace('var(', '').replace(')', '').replace('--', '').strip()
@@ -157,7 +155,7 @@ assert 'data-risk=' in panels, "data-risk Colombie/Monde non injectes"
 # --- Classement des CHERCHEURS par mots-cles (pour filtrer les auteurs) -----
 import unicodedata
 RISK_ORDER_PY = ['seisme','inondation','mouvement','climat','avalanche','feu',
-                 'volcan','gouvernance','infrastructure','urgence','sante','multirisque']
+                 'volcan','tsunami','gouvernance','infrastructure','urgence','sante','multirisque']
 RISK_KEYWORDS = {
  'seisme':['sismi','seismic','seism','microzon','gmpe','earthquake','sismo','pushover','lignes vitales','ponts'],
  'inondation':['inondation','flood','crue','suds','drainage','eau urbain','cote','coast','submersion',
@@ -170,6 +168,7 @@ RISK_KEYWORDS = {
  'avalanche':['avalanche','avalancha','neige','snow'],
  'feu':['feu de foret','feux','wildfire','incendi','forest fire','allumage'],
  'volcan':['volcan','soufri','volcanic','eruptiv'],
+ 'tsunami':['tsunami','raz-de-maree','raz de maree','submarine landslide'],
  'gouvernance':['gouvernance','gouvernement','governance','politique','relogement','reasent','vulnerabilit',
                 'citoyen','gobernanza','assurance','insurance','reassurance','catnat','economie','mortalit',
                 'justice','arraigo','genre','pro-poor','secteur prive','social','haut risque'],
@@ -177,7 +176,8 @@ RISK_KEYWORDS = {
  'urgence':['urgence','emergenc','evacuation','reponse','respuesta','logistique','early warning','alerte'],
  'sante':['sante','salud','health','pandemic','covid','pathogen','medical','sanitaire'],
  'multirisque':['multi-risque','multirriesgo','multi-hazard','multi-alea','riskscape','tomorrow',
-                'exposition','exposure','impact model','cascad','metamodel','incertitude'],
+                'exposition','exposure','impact model','cascad','metamodel','incertitude','natech',
+                'apprentissage automatique','machine learning','deep learning','intelligence artificielle'],
 }
 def _norm(s):
     s = unicodedata.normalize('NFKD', s)
@@ -546,6 +546,118 @@ researchers = [
 def esc(s):  # securite minimale (pas de < > & dans nos textes)
     return s
 
+# --- FRANCE : extension du corpus (canicule, tsunami, sismicite historique, ----
+#     prevision operationnelle, RGA, cotier, NaTech) ---------------------------
+papers += [
+ ("2008","var(--amber)","canicule","canicula",
+  "Death toll exceeded 70,000 in Europe during the summer of 2003",
+  "https://doi.org/10.1016/j.crvi.2007.12.001","DOI",
+  "Estimation de la surmortalite europeenne de la canicule 2003, reference majeure du risque chaleur.",
+  "Estimacion de la sobremortalidad europea de la ola de calor de 2003, referencia clave del riesgo de calor.",
+  "Jean-Marie Robine; Siu Lan K. Cheung; Sophie Le Roy; Herman Van Oyen; Clare Griffiths; Jean-Pierre Michel; Francois R. Herrmann"),
+ ("2006","var(--amber)","canicule","canicula",
+  "Excess mortality related to the August 2003 heat wave in France",
+  "https://doi.org/10.1007/s00420-006-0089-4","DOI",
+  "Quantifie pres de 15 000 deces lies a la canicule d'aout 2003 en France et leurs facteurs de vulnerabilite.",
+  "Cuantifica cerca de 15 000 muertes por la ola de calor de agosto de 2003 en Francia y sus factores de vulnerabilidad.",
+  "Alain Fouillet; Gregoire Rey; Frederic Laurent; Gerard Pavillon; et al."),
+ ("2009","var(--blue)","tsunami","tsunami",
+  "The tsunami triggered by the 21 May 2003 Boumerdes-Zemmouri earthquake: French Mediterranean coast field survey and modelling",
+  "https://doi.org/10.5194/nhess-9-1823-2009","DOI",
+  "Enquetes de terrain et modelisation du tsunami de 2003 sur la cote mediterraneenne francaise.",
+  "Investigaciones de campo y modelacion del tsunami de 2003 en la costa mediterranea francesa.",
+  "Alexandre Sahal; Jean Roger; Sebastien Allgeyer; B. Lemaire; Helene Hebert; Francois Schindele; Franck Lavigne"),
+ ("2020","var(--blue)","tsunami","tsunami",
+  "Tsunami intensity scale based on wave amplitude and current applied to the French Riviera",
+  "https://doi.org/10.1007/s11069-020-03921-0","DOI",
+  "Echelle d'intensite tsunami appliquee a la Cote d'Azur pour la sismicite locale.",
+  "Escala de intensidad de tsunami aplicada a la Costa Azul para la sismicidad local.",
+  "Jean Roger; Helene Hebert; et al."),
+ ("2018","var(--red)","seisme","sismo",
+  "The French seismic CATalogue (FCAT-17)",
+  "https://doi.org/10.1007/s10518-017-0236-1","DOI",
+  "Catalogue sismique homogeneise de la France, socle des evaluations probabilistes d'alea sismique.",
+  "Catalogo sismico homogeneizado de Francia, base de las evaluaciones probabilistas de amenaza sismica.",
+  "Kevin Manchuel; Paola Traversa; David Baumont; Michel Cara; et al."),
+ ("2021","var(--red)","seisme","sismo",
+  "The SISFRANCE database of historical seismicity: state of the art and perspectives",
+  "https://doi.org/10.5802/crgeos.91","DOI",
+  "Base de sismicite historique (EDF-BRGM-IRSN) essentielle a l'alea sismique en contexte de faible deformation.",
+  "Base de sismicidad historica (EDF-BRGM-IRSN) esencial para la amenaza sismica en contexto de baja deformacion.",
+  "Oona Scotti; Christophe Sira; Antoine Schlupp; et al."),
+ ("2025","var(--blue)","inondation","inundacion",
+  "Vigicrues : 20 ans de progres pour la prevision des crues en France",
+  "https://doi.org/10.1080/27678490.2025.2472646","DOI",
+  "Bilan de 20 ans du dispositif national Vigicrues de prevision operationnelle des crues.",
+  "Balance de 20 anos del dispositivo nacional Vigicrues de prevision operacional de crecidas.",
+  "Schapi ; reseau Vigicrues"),
+ ("2025","var(--green)","retrait-gonflement","retraccion-hinchamiento",
+  "Analysis of past and future droughts causing clay shrinkage in France",
+  "https://doi.org/10.5194/hess-29-2321-2025","DOI",
+  "Analyse des secheresses passees et futures responsables du retrait-gonflement des argiles en France.",
+  "Analisis de las sequias pasadas y futuras responsables de la retraccion-hinchamiento de arcillas en Francia.",
+  "Sophie Barthelemy; Bertrand Bonan; Jean-Christophe Calvet; et al."),
+ ("2024","var(--blue)","cotier","costero",
+  "Scenarios nationaux de recul du trait de cote pour le littoral francais (horizons 2050 et 2100)",
+  "https://www.geolittoral.developpement-durable.gouv.fr/","Cerema / Geolittoral",
+  "Cartographies nationales du recul du trait de cote a 2050 et 2100 et exposition des biens du littoral.",
+  "Cartografias nacionales del retroceso de la linea de costa a 2050 y 2100 y exposicion de los bienes del litoral.",
+  "Cerema ; ministere de la Transition ecologique"),
+ ("2024","var(--amber)","NaTech","NaTech",
+  "Projet NaTech (PEPR IRiMa) : anticiper les accidents technologiques declenches par des aleas naturels",
+  "https://www.pepr-risques.fr/en/flagship-projects/natech-risks-anticipating-and-managing-technological-accidents-triggered-natural","PEPR IRiMa",
+  "Programme francais sur les risques NaTech, applique aux vallees de la Seine, de la Gironde et du Rhone.",
+  "Programa frances sobre riesgos NaTech, aplicado a los valles del Sena, de la Gironda y del Rodano.",
+  "Karine Adam (INERIS); Irene Korsakissok (IRSN)"),
+]
+researchers += [
+ ("Centre Europeen de Prevention du Risque d'Inondation (CEPRI)","France","Francia",
+  "CEPRI","CEPRI",
+  "Reference nationale sur la prevention du risque d'inondation, vulnerabilite du bati et resilience des territoires.",
+  "Referencia nacional sobre la prevencion del riesgo de inundacion, vulnerabilidad del edificado y resiliencia de los territorios.",
+  '<a href="https://www.cepri.net/" target="_blank" rel="noopener">cepri.net</a>'),
+ ("Caisse Centrale de Reassurance (CCR)","France","Francia",
+  "CCR - direction R&D modelisation","CCR - direccion I+D modelacion",
+  "Modeles de pertes CatNat (inondation, submersion marine, secheresse), donnees assurantielles nationales et projections climatiques.",
+  "Modelos de perdidas CatNat (inundacion, sumersion marina, sequia), datos aseguradores nacionales y proyecciones climaticas.",
+  '<a href="https://catnat.ccr.fr/" target="_blank" rel="noopener">catnat.ccr.fr</a>'),
+ ("Institut de Radioprotection et de Surete Nucleaire (IRSN)","France","Francia",
+  "IRSN","IRSN",
+  "Alea sismique, mouvements de terrain (BDMvT), risques NaTech et surete des installations.",
+  "Amenaza sismica, movimientos de terreno (BDMvT), riesgos NaTech y seguridad de las instalaciones.",
+  '<a href="https://www.irsn.fr/" target="_blank" rel="noopener">irsn.fr</a>'),
+ ("Cerema","France","Francia",
+  "Cerema","Cerema",
+  "Risques cotiers, recul du trait de cote, mouvements de terrain et adaptation des territoires littoraux.",
+  "Riesgos costeros, retroceso de la linea de costa, movimientos de terreno y adaptacion de los territorios litorales.",
+  '<a href="https://www.cerema.fr/" target="_blank" rel="noopener">cerema.fr</a>'),
+ ("INERIS","France","Francia",
+  "INERIS","INERIS",
+  "Risques technologiques et NaTech : accidents industriels declenches par des aleas naturels.",
+  "Riesgos tecnologicos y NaTech: accidentes industriales desencadenados por amenazas naturales.",
+  '<a href="https://www.ineris.fr/" target="_blank" rel="noopener">ineris.fr</a>'),
+ ("Helene Hebert","France","Francia",
+  "CEA / CENALT","CEA / CENALT",
+  "Modelisation de l'alea tsunami (Mediterranee, Antilles) et centre national d'alerte CENALT.",
+  "Modelacion de la amenaza de tsunami (Mediterraneo, Antillas) y centro nacional de alerta CENALT.",
+  '<a href="mailto:helene.hebert@cea.fr">helene.hebert@cea.fr</a>'),
+ ("Kevin Manchuel","France","Francia",
+  "EDF - consortium SISFRANCE","EDF - consorcio SISFRANCE",
+  "Catalogue sismique FCAT, sismicite historique et alea sismique de la France.",
+  "Catalogo sismico FCAT, sismicidad historica y amenaza sismica de Francia.",
+  '<a href="mailto:kevin.manchuel@edf.fr">kevin.manchuel@edf.fr</a>'),
+ ("Eric Sauquet","France","Francia",
+  "INRAE Lyon (RiverLy)","INRAE Lyon (RiverLy)",
+  "Hydrologie, etiages, projet Explore2 et projections de debits.",
+  "Hidrologia, estiajes, proyecto Explore2 y proyecciones de caudales.",
+  '<a href="mailto:eric.sauquet@inrae.fr">eric.sauquet@inrae.fr</a>'),
+ ("Schapi - reseau Vigicrues","France","Francia",
+  "Schapi (Service Central d'Hydrometeorologie)","Schapi (Servicio Central de Hidrometeorologia)",
+  "Prevision operationnelle des crues (Vigicrues, Vigicrues Flash) et hydrometeorologie nationale.",
+  "Prevision operacional de crecidas (Vigicrues, Vigicrues Flash) e hidrometeorologia nacional.",
+  '<a href="https://www.vigicrues.gouv.fr/" target="_blank" rel="noopener">vigicrues.gouv.fr</a>'),
+]
+
 cards = []
 for (yr, accent, fam_fr, fam_es, title, href, label, dfr, dfe, auth) in papers:
     slug = FAM2RISK.get(fam_fr, 'multirisque')
@@ -567,6 +679,13 @@ for (nom, pfr, pes, ifr, ies, wfr, wes, contact) in researchers:
     )
 rows_html = "\n                  ".join(rows)
 
+# Indicateurs France calcules dynamiquement
+_fr_years = [int(p[0]) for p in papers]
+fr_doc = len(papers)
+fr_period = f"{min(_fr_years)}-{max(_fr_years)}"
+fr_fam = len({FAM2RISK.get(p[2], 'multirisque') for p in papers})
+fr_res = len(researchers)
+
 france_panels = f'''
           <section class="diagram-board academia-panel" data-academia-panel-id="france">
             <div class="board-head">
@@ -582,10 +701,10 @@ france_panels = f'''
                 Corpus francais oriente vers les methodes transferables a un centre de modelisation : chaines alea-exposition-vulnerabilite-pertes, modeles probabilistes, incertitudes, donnees ouvertes et apprentissage automatique. Priorite aux equipes BRGM, INRAE (ex-Irstea/Cemagref), IPGP, ISTerre/EOST, Universite Gustave Eiffel, Meteo-France/CNRM et a la Caisse Centrale de Reassurance, ainsi qu'aux revues a fort impact (NHESS, HESS, Journal of Hydrology, Bulletin of Earthquake Engineering, Scientific Reports).
               </div>
               <div class="academia-stats">
-                <div class="academia-stat"><strong>40</strong><span>documents reperes</span></div>
-                <div class="academia-stat"><strong>2003-2026</strong><span>periode couverte</span></div>
-                <div class="academia-stat"><strong>8</strong><span>familles de risque</span></div>
-                <div class="academia-stat"><strong>22</strong><span>chercheurs clefs</span></div>
+                <div class="academia-stat"><strong>{fr_doc}</strong><span>documents reperes</span></div>
+                <div class="academia-stat"><strong>{fr_period}</strong><span>periode couverte</span></div>
+                <div class="academia-stat"><strong>{fr_fam}</strong><span>familles de risque</span></div>
+                <div class="academia-stat"><strong>{fr_res}</strong><span>chercheurs clefs</span></div>
               </div>
             </div>
 
@@ -652,6 +771,228 @@ def js_obj(d):
         v2 = v.replace("\\", "\\\\").replace('"', '\\"')
         out.append(f'      "{k2}": "{v2}"')
     return "{\n" + ",\n".join(out) + "\n    }"
+
+# ===========================================================================
+# EXTENSION DES CORPUS MONDE + COLOMBIE (cartes + chercheurs inseres dans
+# les panneaux extraits, traductions ES, recalcul des indicateurs)
+# ===========================================================================
+# (annee, accent, fam_fr, fam_es, risk, titre, href, label, desc_fr, desc_es, auteurs)
+monde_extra = [
+ ("2015","var(--amber)","feu de foret","incendio forestal","feu",
+  "Climate-induced variations in global wildfire danger from 1979 to 2013",
+  "https://doi.org/10.1038/ncomms8537","DOI",
+  "Montre l'allongement global de la saison de feu et l'extension des zones a fort danger.",
+  "Muestra la prolongacion global de la temporada de incendios y la expansion de zonas de alto peligro.",
+  "W. Matt Jolly; Mark A. Cochrane; Patrick H. Freeborn; Zachary A. Holden; Timothy J. Brown; et al."),
+ ("2016","var(--amber)","feu de foret","incendio forestal","feu",
+  "Impact of anthropogenic climate change on wildfire across western US forests",
+  "https://doi.org/10.1073/pnas.1607171113","DOI",
+  "Attribue au changement climatique anthropique le doublement des surfaces forestieres brulees a l'Ouest americain.",
+  "Atribuye al cambio climatico antropico la duplicacion de las superficies forestales quemadas en el oeste de EE. UU.",
+  "John T. Abatzoglou; A. Park Williams"),
+ ("2010","var(--cyan)","secheresse","sequia","climat",
+  "A multiscalar drought index sensitive to global warming: the SPEI",
+  "https://doi.org/10.1175/2009JCLI2909.1","DOI",
+  "Indice de secheresse SPEI integrant l'evapotranspiration, reference mondiale sensible au rechauffement.",
+  "Indice de sequia SPEI que integra la evapotranspiracion, referencia mundial sensible al calentamiento.",
+  "Sergio M. Vicente-Serrano; Santiago Begueria; Juan I. Lopez-Moreno"),
+ ("2021","var(--amber)","canicule","canicula","climat",
+  "The burden of heat-related mortality attributable to recent human-induced climate change",
+  "https://doi.org/10.1038/s41558-021-01058-x","DOI",
+  "Attribue plus d'un tiers des deces lies a la chaleur au changement climatique anthropique (43 pays).",
+  "Atribuye mas de un tercio de las muertes por calor al cambio climatico antropico (43 paises).",
+  "Ana M. Vicedo-Cabrera; Noah Scovronick; Francesco Sera; et al."),
+ ("2018","var(--green)","glissement","deslizamiento","mouvement",
+  "Global fatal landslide occurrence from 2004 to 2016",
+  "https://doi.org/10.5194/nhess-18-2161-2018","DOI",
+  "Base mondiale des glissements meurtriers : 55 997 deces en 4 862 evenements non sismiques.",
+  "Base mundial de deslizamientos mortales: 55 997 muertes en 4 862 eventos no sismicos.",
+  "Melanie J. Froude; David N. Petley"),
+ ("2017","var(--blue)","tsunami","tsunami","tsunami",
+  "Probabilistic tsunami hazard analysis: multiple sources and global applications",
+  "https://doi.org/10.1002/2017RG000579","DOI",
+  "Revue de reference des methodes probabilistes d'alea tsunami (PTHA) et de leurs applications globales.",
+  "Revision de referencia de los metodos probabilistas de amenaza de tsunami (PTHA) y sus aplicaciones globales.",
+  "Anita Grezio; Alexander Babeyko; Jorn Behrens; Gareth Davies; Finn Lovholt; et al."),
+ ("2018","var(--blue)","tsunami","tsunami","tsunami",
+  "A global probabilistic tsunami hazard assessment from earthquake sources",
+  "https://doi.org/10.1144/SP456.5","DOI",
+  "Premiere evaluation probabiliste mondiale de l'alea tsunami d'origine sismique.",
+  "Primera evaluacion probabilista mundial de la amenaza de tsunami de origen sismico.",
+  "Gareth Davies; Jonathan Griffin; Finn Lovholt; et al."),
+ ("2017","var(--amber)","volcan","volcan","volcan",
+  "Volcanic fatalities database: analysis of volcanic threat with distance and victim classification",
+  "https://doi.org/10.1186/s13617-017-0067-y","DOI",
+  "Base mondiale des deces volcaniques, utile pour calibrer le risque selon la distance et le type d'eruption.",
+  "Base mundial de muertes volcanicas, util para calibrar el riesgo segun la distancia y el tipo de erupcion.",
+  "Sarah K. Brown; Susanna F. Jenkins; R. Stephen J. Sparks; Henry Odbert; Melanie R. Auker"),
+ ("2019","var(--violet)","IA","IA","multirisque",
+  "Deep learning and process understanding for data-driven Earth system science",
+  "https://doi.org/10.1038/s41586-019-0912-1","DOI",
+  "Cadre de reference pour l'apprentissage profond et les modeles hybrides en sciences du systeme Terre.",
+  "Marco de referencia para el aprendizaje profundo y los modelos hibridos en ciencias del sistema Tierra.",
+  "Markus Reichstein; Gustau Camps-Valls; Bjorn Stevens; Martin Jung; Joachim Denzler; Nuno Carvalhais; et al."),
+ ("2020","var(--green)","nature-based","nature-based","climat",
+  "Understanding the value and limits of nature-based solutions to climate change and other global challenges",
+  "https://doi.org/10.1098/rstb.2019.0120","DOI",
+  "Cadre conceptuel sur la valeur et les limites des solutions fondees sur la nature face au changement climatique.",
+  "Marco conceptual sobre el valor y los limites de las soluciones basadas en la naturaleza ante el cambio climatico.",
+  "Nathalie Seddon; Alexandre Chausson; Pam Berry; Cecile A. J. Girardin; Alison Smith; Beth Turner"),
+ ("2020","var(--green)","nature-based","nature-based","climat",
+  "Mapping the effectiveness of nature-based solutions for climate change adaptation",
+  "https://doi.org/10.1111/gcb.15310","DOI",
+  "Cartographie systematique de l'efficacite des solutions fondees sur la nature pour l'adaptation.",
+  "Cartografia sistematica de la eficacia de las soluciones basadas en la naturaleza para la adaptacion.",
+  "Alexandre Chausson; Beth Turner; Dan Seddon; et al."),
+]
+colombie_extra = [
+ ("1990","var(--amber)","volcan","volcan","volcan",
+  "The 1985 Nevado del Ruiz volcano catastrophe: anatomy and retrospection",
+  "https://doi.org/10.1016/0377-0273(90)90027-D","DOI",
+  "Analyse de reference de la catastrophe d'Armero (Nevado del Ruiz, 1985) et de ses defaillances de gestion.",
+  "Analisis de referencia de la catastrofe de Armero (Nevado del Ruiz, 1985) y de sus fallas de gestion.",
+  "Barry Voight"),
+ ("2014","var(--red)","seisme","sismo","seisme",
+  "Fully probabilistic seismic risk assessment considering local site effects for the building portfolio of Medellin",
+  "https://doi.org/10.1007/s10518-013-9550-4","DOI",
+  "Evaluation probabiliste complete du risque sismique du parc bati de Medellin avec effets de site.",
+  "Evaluacion probabilista completa del riesgo sismico del parque edificado de Medellin con efectos de sitio.",
+  "Mario A. Salgado-Galvez; Gabriel A. Bernal; Daniela Zuloaga; Mabel C. Marulanda; Omar D. Cardona; et al."),
+ ("2015","var(--red)","seisme","sismo","seisme",
+  "Urban seismic risk index for Medellin, Colombia, based on probabilistic loss and casualties estimations",
+  "https://doi.org/10.1007/s11069-015-2056-4","DOI",
+  "Indice de risque sismique urbain integrant pertes probabilistes et estimations de victimes.",
+  "Indice de riesgo sismico urbano que integra perdidas probabilistas y estimaciones de victimas.",
+  "Mabel C. Marulanda; Martha L. Carreno; Omar D. Cardona; et al."),
+ ("2022","var(--cyan)","sante","salud","sante",
+  "Avoidable mortality due to long-term exposure to PM2.5 in Colombia 2014-2019",
+  "https://doi.org/10.1186/s12940-022-00947-8","DOI",
+  "Quantifie la mortalite evitable liee a l'exposition de long terme aux particules fines en Colombie.",
+  "Cuantifica la mortalidad evitable por exposicion de largo plazo a particulas finas en Colombia.",
+  "Laura A. Rodriguez-Villamizar; Luis Carlos Belalcazar-Ceron; Maria Paula Castillo; et al."),
+ ("2024","var(--green)","glissement","deslizamiento","mouvement",
+  "Landslide hazard and rainfall threshold assessment with physics-based models (Manizales)",
+  "https://doi.org/10.3390/geosciences14100280","DOI",
+  "Combine modeles physiques (TRIGRS, Scoops3D) et seuils de pluie pour l'alerte aux glissements a Manizales.",
+  "Combina modelos fisicos (TRIGRS, Scoops3D) y umbrales de lluvia para la alerta de deslizamientos en Manizales.",
+  "Roberto J. Marin; et al."),
+ ("2025","var(--blue)","drainage","drenaje","inondation",
+  "Modeling urban drainage in intermediate cities under extreme climate change scenarios: Tunja, Colombia",
+  "https://doi.org/10.2166/h2oj.2025.007","DOI",
+  "Modelise le drainage urbain de villes intermediaires colombiennes sous scenarios climatiques extremes.",
+  "Modela el drenaje urbano de ciudades intermedias colombianas bajo escenarios climaticos extremos.",
+  "Cesar Mauricio Daza Rodriguez; Camilo Lesmes Fabian; Jorge Andres Sarmiento-Rojas"),
+]
+monde_res_extra = [
+ ("W. Matt Jolly","Etats-Unis","Estados Unidos","USDA Forest Service (RMRS)","USDA Forest Service (RMRS)",
+  "Danger meteorologique de feu, indices globaux et saison des feux.",
+  "Peligro meteorologico de incendio, indices globales y temporada de incendios.",
+  '<a href="mailto:matt.jolly@usda.gov">matt.jolly@usda.gov</a>'),
+ ("John T. Abatzoglou","Etats-Unis","Estados Unidos","University of California, Merced","University of California, Merced",
+  "Climat et feux de foret, aridite, conditions meteorologiques de feu.",
+  "Clima e incendios forestales, aridez, condiciones meteorologicas de incendio.",
+  '<a href="mailto:jabatzoglou@ucmerced.edu">jabatzoglou@ucmerced.edu</a>'),
+ ("Sergio M. Vicente-Serrano","Espagne","Espana","CSIC - Instituto Pirenaico de Ecologia","CSIC - Instituto Pirenaico de Ecologia",
+  "Indices de secheresse (SPEI), aridification et hydroclimat.",
+  "Indices de sequia (SPEI), aridificacion e hidroclima.",
+  '<a href="mailto:svicen@ipe.csic.es">svicen@ipe.csic.es</a>'),
+ ("Ana M. Vicedo-Cabrera","Suisse","Suiza","University of Bern","University of Bern",
+  "Epidemiologie climatique, mortalite liee a la chaleur et attribution.",
+  "Epidemiologia climatica, mortalidad por calor y atribucion.",
+  '<a href="mailto:anamaria.vicedo@unibe.ch">anamaria.vicedo@unibe.ch</a>'),
+ ("David N. Petley","Royaume-Uni","Reino Unido","University of Hull","University of Hull",
+  "Glissements de terrain et base mondiale des glissements meurtriers.",
+  "Deslizamientos y base mundial de deslizamientos mortales.",
+  '<a href="mailto:d.petley@hull.ac.uk">d.petley@hull.ac.uk</a>'),
+ ("Finn Lovholt","Norvege","Noruega","Norwegian Geotechnical Institute (NGI)","Norwegian Geotechnical Institute (NGI)",
+  "Alea tsunami probabiliste et glissements sous-marins.",
+  "Amenaza de tsunami probabilista y deslizamientos submarinos.",
+  '<a href="mailto:finn.lovholt@ngi.no">finn.lovholt@ngi.no</a>'),
+ ("Markus Reichstein","Allemagne","Alemania","Max Planck Institute for Biogeochemistry","Max Planck Institute for Biogeochemistry",
+  "Apprentissage automatique pour le systeme Terre et les extremes.",
+  "Aprendizaje automatico para el sistema Tierra y los extremos.",
+  '<a href="mailto:mreichstein@bgc-jena.mpg.de">mreichstein@bgc-jena.mpg.de</a>'),
+ ("Nathalie Seddon","Royaume-Uni","Reino Unido","University of Oxford","University of Oxford",
+  "Solutions fondees sur la nature, adaptation et biodiversite.",
+  "Soluciones basadas en la naturaleza, adaptacion y biodiversidad.",
+  '<a href="mailto:nathalie.seddon@biology.ox.ac.uk">nathalie.seddon@biology.ox.ac.uk</a>'),
+]
+colombie_res_extra = [
+ ("Mario A. Salgado-Galvez","Colombie / Espagne","Colombia / Espana","INGENIAR Risk Intelligence / CIMNE","INGENIAR Risk Intelligence / CIMNE",
+  "Risque sismique probabiliste (CAPRA), pertes, exposition et assurance.",
+  "Riesgo sismico probabilista (CAPRA), perdidas, exposicion y seguro.",
+  '<a href="https://www.ingeniar-risk.com/" target="_blank" rel="noopener">ingeniar-risk.com</a>'),
+ ("Roberto J. Marin","Colombie","Colombia","Universidad de Medellin","Universidad de Medellin",
+  "Seuils de pluie, glissements superficiels, modeles physiques et alerte precoce.",
+  "Umbrales de lluvia, deslizamientos superficiales, modelos fisicos y alerta temprana.",
+  '<a href="https://scholar.google.com/scholar?q=Roberto+J.+Marin+landslide+Colombia" target="_blank" rel="noopener">profil Scholar</a>'),
+ ("Laura A. Rodriguez-Villamizar","Colombie","Colombia","Universidad Industrial de Santander","Universidad Industrial de Santander",
+  "Epidemiologie environnementale, PM2.5, mortalite attribuable et sante publique.",
+  "Epidemiologia ambiental, PM2.5, mortalidad atribuible y salud publica.",
+  '<a href="https://scholar.google.com/scholar?q=Laura+Rodriguez-Villamizar+PM2.5+Colombia" target="_blank" rel="noopener">profil Scholar</a>'),
+ ("Servicio Geologico Colombiano (SGC)","Colombie","Colombia","SGC - Observatorios Vulcanologicos y Sismologicos","SGC - Observatorios Vulcanologicos y Sismologicos",
+  "Surveillance des 23 volcans actifs, alea volcanique et sismologie nationale.",
+  "Vigilancia de los 23 volcanes activos, amenaza volcanica y sismologia nacional.",
+  '<a href="https://www.sgc.gov.co/" target="_blank" rel="noopener">sgc.gov.co</a>'),
+]
+
+def _build_card(c):
+    yr, accent, fam_fr, fam_es, risk, title, href, label, dfr, dfe, auth = c
+    fr_es[fam_fr] = fam_es
+    fr_es[dfr] = dfe
+    return (f'<li class="paper-card" data-risk="{risk}" style="--accent:{accent}">'
+            f'<div class="paper-meta"><span>{yr}</span><span>{fam_fr}</span></div>'
+            f'<h4 class="paper-title">{title}</h4><p>{dfr}</p>'
+            f'<div class="paper-authors">{auth}</div>'
+            f'<div class="paper-source"><a href="{href}" target="_blank" rel="noopener">{label}</a></div></li>')
+
+def _build_row(r):
+    nom, pfr, pes, ifr, ies, wfr, wes, contact = r
+    fr_es[pfr] = pes
+    if ifr != ies:
+        fr_es[ifr] = ies
+    fr_es[wfr] = wes
+    slugs = classify(nom + ' ' + wfr + ' ' + ifr)
+    return f'<tr data-risk="{slugs}"><td>{nom}</td><td>{pfr}</td><td>{ifr}</td><td>{wfr}</td><td>{contact}</td></tr>'
+
+_col_cards = "\n              ".join(_build_card(c) for c in colombie_extra)
+_mon_cards = "\n              ".join(_build_card(c) for c in monde_extra)
+_col_rows = "\n                  ".join(_build_row(r) for r in colombie_res_extra)
+_mon_rows = "\n                  ".join(_build_row(r) for r in monde_res_extra)
+
+# Separer Colombie / Monde, inserer les cartes et lignes
+_mi2 = panels.index('<section class="diagram-board academia-panel" data-academia-panel-id="monde">')
+_col, _mon = panels[:_mi2], panels[_mi2:]
+_col = _col.replace('</ul>', '\n              ' + _col_cards + '\n            </ul>', 1)
+_col = _col.replace('</tbody>', '\n                  ' + _col_rows + '\n                </tbody>', 1)
+_mon = _mon.replace('</ul>', '\n              ' + _mon_cards + '\n            </ul>', 1)
+_mon = _mon.replace('</tbody>', '\n                  ' + _mon_rows + '\n                </tbody>', 1)
+
+def _part_stats(part):
+    found = re.findall(r'<li class="paper-card" data-risk="([a-z]+)"[^>]*><div class="paper-meta"><span>(\d{4})</span>', part)
+    risks = [f[0] for f in found]
+    years = [int(f[1]) for f in found]
+    docs = len(found)
+    fam = len(set(risks))
+    period = f"{min(years)}-{max(years)}" if years else "—"
+    res = len(re.findall(r'<tr data-risk=', part))
+    return str(docs), period, str(fam), str(res)
+
+def _set_stat(html, label, value):
+    return re.sub(r'<strong>[^<]*</strong><span>' + re.escape(label) + r'</span>',
+                  f'<strong>{value}</strong><span>{label}</span>', html, count=1)
+
+_cd, _cp, _cf, _cr = _part_stats(_col)
+_col = _set_stat(_col, "documents reperes", _cd)
+_col = _set_stat(_col, "periode couverte", _cp)
+_col = _set_stat(_col, "familles de risque", _cf)
+_col = _set_stat(_col, "chercheurs clefs", _cr)
+_md, _mp, _mf, _mr = _part_stats(_mon)
+_mon = _set_stat(_mon, "papiers selectionnes", _md)
+_mon = _set_stat(_mon, "periode couverte", _mp)
+_mon = _set_stat(_mon, "familles methodologiques", _mf)
+_mon = _set_stat(_mon, "chercheurs clefs", _mr)
+panels = _col + _mon
 
 france_es_js = js_obj(fr_es)
 
@@ -738,13 +1079,14 @@ page = f'''<!doctype html>
       avalanche:      {{ fr: "Avalanche", es: "Avalancha" }},
       feu:            {{ fr: "Feu de forêt", es: "Incendio forestal" }},
       volcan:         {{ fr: "Volcan", es: "Volcán" }},
+      tsunami:        {{ fr: "Tsunami", es: "Tsunami" }},
       gouvernance:    {{ fr: "Gouvernance & société", es: "Gobernanza y sociedad" }},
       infrastructure: {{ fr: "Infrastructures & réseaux", es: "Infraestructuras y redes" }},
       urgence:        {{ fr: "Urgence & réponse", es: "Emergencia y respuesta" }},
       sante:          {{ fr: "Santé", es: "Salud" }},
       multirisque:    {{ fr: "Multi-risque & méthodes", es: "Multirriesgo y métodos" }}
     }};
-    const RISK_ORDER = ["general","seisme","inondation","mouvement","climat","avalanche","feu","volcan","gouvernance","infrastructure","urgence","sante","multirisque"];
+    const RISK_ORDER = ["general","seisme","inondation","mouvement","climat","avalanche","feu","volcan","tsunami","gouvernance","infrastructure","urgence","sante","multirisque"];
 
 '''
 
