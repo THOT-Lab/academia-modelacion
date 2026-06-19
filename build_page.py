@@ -18,26 +18,52 @@ html = SRC.read_text(encoding="utf-8")
 # --- 1. CSS complet + styles de la bande de logos ---------------------------
 css = html[html.index("<style>") + len("<style>"): html.index("</style>")]
 css += """
-    /* Bande de logos partenaires */
+    /* Bande de logos partenaires (compacte) */
     .partner-band {
       display: inline-block;
       background: #ffffff;
       border: 1px solid var(--line);
-      border-radius: 10px;
-      padding: 8px 16px;
+      border-radius: 8px;
+      padding: 4px 9px;
       box-shadow: var(--soft-shadow);
       margin-bottom: 12px;
       max-width: 100%;
     }
     .partner-band img {
-      height: 40px;
+      height: 22px;
       width: auto;
       max-width: 100%;
       display: block;
     }
     @media (max-width: 720px) {
-      .partner-band { padding: 6px 10px; }
-      .partner-band img { height: 28px; }
+      .partner-band { padding: 3px 7px; }
+      .partner-band img { height: 17px; }
+    }
+
+    /* Pastilles de filtrage par type de risque */
+    .filter-bar {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 7px;
+      margin: 2px 0 16px;
+    }
+    .filter-pill {
+      min-height: 30px;
+      padding: 5px 13px;
+      border: 1px solid var(--line);
+      border-radius: 999px;
+      background: var(--white);
+      color: var(--muted);
+      font-size: 12px;
+      font-weight: 800;
+      letter-spacing: .01em;
+    }
+    .filter-pill:hover { color: var(--navy); border-color: #c2ccdb; }
+    .filter-pill.active {
+      background: var(--navy);
+      color: #fff;
+      border-color: var(--navy);
+      box-shadow: var(--soft-shadow);
     }
 """
 
@@ -54,6 +80,47 @@ assert 'panel-id="colombie"' in panels and 'panel-id="monde"' in panels, "rename
 # Retrait des pastilles (tag-row) des cartes de resultats
 panels = re.sub(r'\s*<div class="tag-row">.*?</div>', '', panels)
 assert 'tag-row' not in panels, "tag-row Colombie/Monde non retires"
+
+# --- Classement des cartes par type de risque (data-risk) ------------------
+# Resolution PAR ONGLET : la couleur d'accent fixe le type, avec quelques
+# surcharges par tag (les memes tags/couleurs ne signifient pas la meme chose
+# entre Colombie et Monde).
+COL_ACCENT = {'red':'seisme','blue':'inondation','green':'mouvement',
+              'violet':'gouvernance','cyan':'sante','amber':'urgence'}
+COL_TAG = {'incendie':'feu','insar':'mouvement','telecom':'infrastructure'}
+MON_ACCENT = {'red':'seisme','blue':'inondation','green':'mouvement',
+              'violet':'multirisque','cyan':'infrastructure','amber':'climat'}
+MON_TAG = {'volcan / systemique':'volcan'}
+FAM2RISK = {'hydrologie':'inondation','seisme':'seisme','inondation':'inondation',
+            'crue eclair':'inondation','avalanche':'avalanche','secheresse':'climat',
+            'assurance':'gouvernance','volcan':'volcan','cotier':'inondation',
+            'submersion':'inondation','glissement':'mouvement','feu de foret':'feu',
+            'retrait-gonflement':'mouvement','mortalite':'gouvernance','gouvernance':'gouvernance'}
+
+def _resolve(accent, tag, accent_map, tag_map):
+    a = accent.replace('var(', '').replace(')', '').replace('--', '').strip()
+    t = tag.strip().lower()
+    if t in tag_map:
+        return tag_map[t]
+    return accent_map.get(a, 'multirisque')
+
+_CARD_RE = re.compile(
+    r'<li class="paper-card" style="--accent:var\((--\w+)\)"><div class="paper-meta"><span>([^<]*)</span><span>([^<]*)</span>')
+
+def inject_risk(html_frag, accent_map, tag_map):
+    def repl(m):
+        accent, year, tag = m.group(1), m.group(2), m.group(3)
+        slug = _resolve(accent, tag, accent_map, tag_map)
+        return (f'<li class="paper-card" data-risk="{slug}" style="--accent:var({accent})">'
+                f'<div class="paper-meta"><span>{year}</span><span>{tag}</span>')
+    return _CARD_RE.sub(repl, html_frag)
+
+# Separer les panneaux Colombie (debut) et Monde (a partir du 1er panneau monde)
+_mon_marker = '<section class="diagram-board academia-panel" data-academia-panel-id="monde">'
+_mi = panels.index(_mon_marker)
+panels = (inject_risk(panels[:_mi], COL_ACCENT, COL_TAG)
+          + inject_risk(panels[_mi:], MON_ACCENT, MON_TAG))
+assert 'data-risk=' in panels, "data-risk Colombie/Monde non injectes"
 
 # --- 3. Dictionnaire textES existant ---------------------------------------
 t0 = html.index("const textES = {")
@@ -409,8 +476,9 @@ def esc(s):  # securite minimale (pas de < > & dans nos textes)
 
 cards = []
 for (yr, accent, fam_fr, fam_es, title, href, label, dfr, dfe, auth) in papers:
+    slug = FAM2RISK.get(fam_fr, 'multirisque')
     cards.append(
-        f'<li class="paper-card" style="--accent:{accent}">'
+        f'<li class="paper-card" data-risk="{slug}" style="--accent:{accent}">'
         f'<div class="paper-meta"><span>{yr}</span><span>{fam_fr}</span></div>'
         f'<h4 class="paper-title">{title}</h4>'
         f'<p>{dfr}</p>'
@@ -534,7 +602,7 @@ page = f'''<!doctype html>
             <img src="assets/logos/partner-band.png" alt="IGN FI · 3E Conseils · THOT · Alcaldia Mayor de Bogota / IDIGER · AFD" />
           </div>
           <h2 id="page-title">Academia y modelacion</h2>
-          <p class="subtitle" id="page-subtitle">Corpus scientifique et chercheurs de reference pour la modelisation des risques : Bogota et Colombie, panorama international et France.</p>
+          <p class="subtitle" id="page-subtitle">Corpus mondial sur la gestion et la modelisation des risques : articles, theses et chercheurs de reference.</p>
         </div>
         <div class="toolbar">
           <div class="lang-switch" aria-label="Langue">
@@ -571,8 +639,8 @@ page = f'''<!doctype html>
 
     const SUBTITLES = {{
       colombie: {{
-        fr: "Corpus mondial sur la gestion et la modelisation des risques a Bogota et en Colombie : articles, theses et chercheurs de reference.",
-        es: "Corpus mundial sobre la gestion y modelacion de riesgos en Bogota y Colombia: articulos, tesis e investigadores de referencia."
+        fr: "Corpus mondial sur la gestion et la modelisation des risques : articles, theses et chercheurs de reference.",
+        es: "Corpus mundial sobre la gestion y modelacion de riesgos: articulos, tesis e investigadores de referencia."
       }},
       monde: {{
         fr: "Panorama international recent des methodes de modelisation des risques : alea, exposition, vulnerabilite, pertes, multi-alea et aide a la decision.",
@@ -583,6 +651,24 @@ page = f'''<!doctype html>
         es: "Corpus cientifico frances sobre la modelacion de riesgos naturales: inundacion, sumersion, sismo, movimientos de terreno, avalancha, incendio forestal y volcan."
       }}
     }};
+
+    // Libelles des pastilles de filtrage (FR / ES)
+    const RISK_LABELS = {{
+      general:        {{ fr: "Général", es: "General" }},
+      seisme:         {{ fr: "Séisme", es: "Sismo" }},
+      inondation:     {{ fr: "Inondation & eau", es: "Inundación y agua" }},
+      mouvement:      {{ fr: "Mouvements de terrain", es: "Movimientos de terreno" }},
+      climat:         {{ fr: "Climat & adaptation", es: "Clima y adaptación" }},
+      avalanche:      {{ fr: "Avalanche", es: "Avalancha" }},
+      feu:            {{ fr: "Feu de forêt", es: "Incendio forestal" }},
+      volcan:         {{ fr: "Volcan", es: "Volcán" }},
+      gouvernance:    {{ fr: "Gouvernance & société", es: "Gobernanza y sociedad" }},
+      infrastructure: {{ fr: "Infrastructures & réseaux", es: "Infraestructuras y redes" }},
+      urgence:        {{ fr: "Urgence & réponse", es: "Emergencia y respuesta" }},
+      sante:          {{ fr: "Santé", es: "Salud" }},
+      multirisque:    {{ fr: "Multi-risque & méthodes", es: "Multirriesgo y métodos" }}
+    }};
+    const RISK_ORDER = ["general","seisme","inondation","mouvement","climat","avalanche","feu","volcan","gouvernance","infrastructure","urgence","sante","multirisque"];
 
 '''
 
@@ -633,8 +719,42 @@ page += '''
         node.nodeValue = lang === "es" && textES[trimmed] ? before + textES[trimmed] + after : original;
       }
 
+      // Pastilles de filtrage : libelles geres hors textES
+      $$(".filter-pill").forEach(p => { p.textContent = p.dataset[lang] || p.dataset.fr; });
+
       setHeaderText(lang);
       localStorage.setItem(langStorageKey, lang);
+    }
+
+    function buildFilters() {
+      $$(".academia-panel").forEach(panel => {
+        const list = panel.querySelector(".paper-list");
+        if (!list) return;
+        const cards = Array.from(list.querySelectorAll(".paper-card"));
+        const present = new Set(cards.map(c => c.dataset.risk).filter(Boolean));
+        const slugs = RISK_ORDER.filter(s => s === "general" || present.has(s));
+        const bar = document.createElement("div");
+        bar.className = "filter-bar";
+        bar.setAttribute("role", "tablist");
+        slugs.forEach((slug, i) => {
+          const label = RISK_LABELS[slug] || { fr: slug, es: slug };
+          const btn = document.createElement("button");
+          btn.type = "button";
+          btn.className = "filter-pill" + (i === 0 ? " active" : "");
+          btn.dataset.risk = slug;
+          btn.dataset.fr = label.fr;
+          btn.dataset.es = label.es;
+          btn.textContent = label[currentLang] || label.fr;
+          btn.addEventListener("click", () => {
+            bar.querySelectorAll(".filter-pill").forEach(p => p.classList.toggle("active", p === btn));
+            cards.forEach(c => {
+              c.style.display = (slug === "general" || c.dataset.risk === slug) ? "" : "none";
+            });
+          });
+          bar.appendChild(btn);
+        });
+        list.parentNode.insertBefore(bar, list);
+      });
     }
 
     function bindExclusiveTabs(buttonSelector, panelSelector, getTargetId, panelMatchesTarget, onChange = () => {}) {
@@ -652,6 +772,7 @@ page += '''
     }
 
     collectTextNodes();
+    buildFilters();
 
     bindExclusiveTabs(
       ".academia-subtab",
