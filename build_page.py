@@ -1005,6 +1005,26 @@ page = f'''<!doctype html>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>IDIGER | Academia y modelación</title>
+  <meta name="description" content="Corpus scientifique et chercheurs de référence pour la modélisation des risques — Colombie, international et France. Gestion des risques &amp; climat. Bilingue FR/ES. IDIGER." />
+  <link rel="icon" type="image/png" sizes="32x32" href="assets/favicon-32.png" />
+  <link rel="icon" type="image/png" sizes="16x16" href="assets/favicon-16.png" />
+  <link rel="icon" href="assets/favicon.ico" sizes="any" />
+  <link rel="apple-touch-icon" sizes="180x180" href="assets/apple-touch-icon.png" />
+  <meta name="theme-color" content="#182b4d" />
+  <meta property="og:type" content="website" />
+  <meta property="og:site_name" content="Academia y modelación — IDIGER" />
+  <meta property="og:title" content="Academia y modelación" />
+  <meta property="og:description" content="Corpus scientifique et chercheurs de référence pour la modélisation des risques — Colombie, international et France. Bilingue FR/ES." />
+  <meta property="og:url" content="https://thot-lab.github.io/academia-modelacion/" />
+  <meta property="og:image" content="https://thot-lab.github.io/academia-modelacion/assets/og-image.png" />
+  <meta property="og:image:width" content="1200" />
+  <meta property="og:image:height" content="630" />
+  <meta property="og:locale" content="fr_FR" />
+  <meta property="og:locale:alternate" content="es_ES" />
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:title" content="Academia y modelación" />
+  <meta name="twitter:description" content="Corpus scientifique et chercheurs de référence pour la modélisation des risques — Colombie, international et France. FR/ES." />
+  <meta name="twitter:image" content="https://thot-lab.github.io/academia-modelacion/assets/og-image.png" />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,500;0,9..144,600;1,9..144,500&display=swap" rel="stylesheet" />
