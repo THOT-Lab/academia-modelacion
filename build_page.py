@@ -15,8 +15,38 @@ SRC = pathlib.Path(__file__).resolve().parent.parent / "centre-modelation-page" 
 OUT = pathlib.Path(__file__).resolve().parent / "index.html"
 html = SRC.read_text(encoding="utf-8")
 
-# --- 1. CSS complet ---------------------------------------------------------
+# --- 1. CSS complet + styles de la bande de logos ---------------------------
 css = html[html.index("<style>") + len("<style>"): html.index("</style>")]
+css += """
+    /* Bande de logos partenaires */
+    .partner-logos {
+      display: flex;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 9px;
+      margin-bottom: 10px;
+    }
+    .logo-chip {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      height: 42px;
+      padding: 5px 12px;
+      background: #ffffff;
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      box-shadow: var(--soft-shadow);
+    }
+    .logo-chip img {
+      height: 28px;
+      width: auto;
+      display: block;
+    }
+    @media (max-width: 720px) {
+      .logo-chip { height: 36px; padding: 4px 9px; }
+      .logo-chip img { height: 23px; }
+    }
+"""
 
 # --- 2. Panneaux Colombie + Monde ------------------------------------------
 panel_start = '<section class="diagram-board academia-panel active" data-academia-panel-id="bogota">'
@@ -25,8 +55,12 @@ i0 = html.index(panel_start)
 i1 = html.index(panel_end_marker)
 panels = html[i0:i1].rstrip()
 panels = panels.replace('data-academia-panel-id="bogota"', 'data-academia-panel-id="colombie"')
+panels = panels.replace('data-academia-panel-id="monde"', 'data-academia-panel-id="monde"')
 panels = panels.replace('data-academia-panel-id="modelisation"', 'data-academia-panel-id="monde"')
 assert 'panel-id="colombie"' in panels and 'panel-id="monde"' in panels, "rename panneaux KO"
+# Retrait des pastilles (tag-row) des cartes de resultats
+panels = re.sub(r'\s*<div class="tag-row">.*?</div>', '', panels)
+assert 'tag-row' not in panels, "tag-row Colombie/Monde non retires"
 
 # --- 3. Dictionnaire textES existant ---------------------------------------
 t0 = html.index("const textES = {")
@@ -406,7 +440,6 @@ france_panels = f'''
                 <h3>Academie - modelisation des risques en France</h3>
                 <p>Revue ciblee du corpus scientifique francais : crues eclair et inondation, submersion marine et littoral, seisme, mouvements de terrain et retrait-gonflement des argiles, avalanche, feu de foret, volcan et economie du risque.</p>
               </div>
-              <div class="tag-row"><span class="tag">2003-2026</span><span class="tag">Corpus francais</span><span class="tag">BRGM - INRAE - IPGP - CCR</span></div>
             </div>
 
             <div class="academia-brief">
@@ -433,7 +466,6 @@ france_panels = f'''
                 <h3>Chercheurs francais et contacts publics</h3>
                 <p>Contacts institutionnels ou profils publics a mobiliser pour un comite scientifique, des echanges de methodes (AIGA, OpenQuake, modeles GR, modeles CCR) ou un cadrage multi-alea adapte au contexte francais.</p>
               </div>
-              <div class="tag-row"><span class="tag">Profils publics</span><span class="tag">Comite scientifique</span><span class="tag">Methodes</span></div>
             </div>
             <div class="researcher-table-wrap">
               <table class="researcher-table">
@@ -505,7 +537,13 @@ page = f'''<!doctype html>
     <header>
       <div class="topline">
         <div>
-          <div class="kicker">IDIGER / AFD / IGN FI / 3E Conseils / Canal Clima</div>
+          <div class="partner-logos">
+            <span class="logo-chip"><img src="assets/logos/ignfi.png" alt="IGN FI" /></span>
+            <span class="logo-chip"><img src="assets/logos/bogota.png" alt="Alcaldia Mayor de Bogota - IDIGER" /></span>
+            <span class="logo-chip"><img src="assets/logos/afd.png" alt="AFD" /></span>
+            <span class="logo-chip"><img src="assets/logos/3ec.png" alt="3E Conseils" /></span>
+            <span class="logo-chip"><img src="assets/logos/thot.png" alt="THOT" /></span>
+          </div>
           <h2 id="page-title">Academia y modelacion</h2>
           <p class="subtitle" id="page-subtitle">Corpus scientifique et chercheurs de reference pour la modelisation des risques : Bogota et Colombie, panorama international et France.</p>
         </div>

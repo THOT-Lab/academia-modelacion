@@ -1800,14 +1800,49 @@
       .org-tree { transform: none !important; zoom: 1 !important; }
       .diagram-board, .metric { box-shadow: none; }
     }
-  </style>
+  
+    /* Bande de logos partenaires */
+    .partner-logos {
+      display: flex;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 9px;
+      margin-bottom: 10px;
+    }
+    .logo-chip {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      height: 42px;
+      padding: 5px 12px;
+      background: #ffffff;
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      box-shadow: var(--soft-shadow);
+    }
+    .logo-chip img {
+      height: 28px;
+      width: auto;
+      display: block;
+    }
+    @media (max-width: 720px) {
+      .logo-chip { height: 36px; padding: 4px 9px; }
+      .logo-chip img { height: 23px; }
+    }
+</style>
 </head>
 <body>
   <main>
     <header>
       <div class="topline">
         <div>
-          <div class="kicker">IDIGER / AFD / IGN FI / 3E Conseils / Canal Clima</div>
+          <div class="partner-logos">
+            <span class="logo-chip"><img src="assets/logos/ignfi.png" alt="IGN FI" /></span>
+            <span class="logo-chip"><img src="assets/logos/bogota.png" alt="Alcaldia Mayor de Bogota - IDIGER" /></span>
+            <span class="logo-chip"><img src="assets/logos/afd.png" alt="AFD" /></span>
+            <span class="logo-chip"><img src="assets/logos/3ec.png" alt="3E Conseils" /></span>
+            <span class="logo-chip"><img src="assets/logos/thot.png" alt="THOT" /></span>
+          </div>
           <h2 id="page-title">Academia y modelacion</h2>
           <p class="subtitle" id="page-subtitle">Corpus scientifique et chercheurs de reference pour la modelisation des risques : Bogota et Colombie, panorama international et France.</p>
         </div>
@@ -1834,7 +1869,6 @@
                 <h3>Académie - corpus mondial sur la gestion des risques a Bogota</h3>
                 <p>Revue compacte des articles, chapitres, theses et actes scientifiques directement relies a Bogota, aux risques naturels, socio-naturels, climatiques et a leur gouvernance.</p>
               </div>
-              <div class="tag-row"><span class="tag">Recherche mondiale</span><span class="tag">Articles + theses</span><span class="tag">Tres condense</span></div>
             </div>
 
             <div class="academia-brief">
@@ -1914,7 +1948,6 @@
                 <h3>Chercheurs et contacts publics</h3>
                 <p>Le pays indique l'origine lorsqu'elle est explicitement publique, sinon l'ancrage institutionnel principal. Les contacts ci-dessous proviennent de pages institutionnelles, articles ou profils publics.</p>
               </div>
-              <div class="tag-row"><span class="tag">Coordonnees publiques</span><span class="tag">Profils academiques</span></div>
             </div>
             <div class="researcher-table-wrap">
               <table class="researcher-table">
@@ -1951,7 +1984,6 @@
                 <h3>Académie - modelisation des risques</h3>
                 <p>Revue recente des papiers de reference pour concevoir une chaine scientifique robuste : alea, exposition, vulnerabilite, pertes, incertitude, risques composes, infrastructures et aide a la decision.</p>
               </div>
-              <div class="tag-row"><span class="tag">2015-2026</span><span class="tag">Revues majeures</span><span class="tag">International</span></div>
             </div>
 
             <div class="academia-brief">
@@ -2019,7 +2051,6 @@
                 <h3>Chercheurs internationaux et contacts publics</h3>
                 <p>Contacts institutionnels ou profils publics a mobiliser pour un comite scientifique, des revues de methodes, des formations OpenQuake/RiskScape, ou un cadrage multi-risque et climat.</p>
               </div>
-              <div class="tag-row"><span class="tag">Profils publics</span><span class="tag">Comite scientifique</span><span class="tag">Methodes</span></div>
             </div>
             <div class="researcher-table-wrap">
               <table class="researcher-table">
@@ -2056,7 +2087,6 @@
                 <h3>Academie - modelisation des risques en France</h3>
                 <p>Revue ciblee du corpus scientifique francais : crues eclair et inondation, submersion marine et littoral, seisme, mouvements de terrain et retrait-gonflement des argiles, avalanche, feu de foret, volcan et economie du risque.</p>
               </div>
-              <div class="tag-row"><span class="tag">2003-2026</span><span class="tag">Corpus francais</span><span class="tag">BRGM - INRAE - IPGP - CCR</span></div>
             </div>
 
             <div class="academia-brief">
@@ -2122,7 +2152,6 @@
                 <h3>Chercheurs francais et contacts publics</h3>
                 <p>Contacts institutionnels ou profils publics a mobiliser pour un comite scientifique, des echanges de methodes (AIGA, OpenQuake, modeles GR, modeles CCR) ou un cadrage multi-alea adapte au contexte francais.</p>
               </div>
-              <div class="tag-row"><span class="tag">Profils publics</span><span class="tag">Comite scientifique</span><span class="tag">Methodes</span></div>
             </div>
             <div class="researcher-table-wrap">
               <table class="researcher-table">
