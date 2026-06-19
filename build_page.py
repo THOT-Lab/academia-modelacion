@@ -1113,8 +1113,9 @@ page += '''
     }
 
     function setHeaderText(lang) {
-      // Le titre est statique (typographie soignee) ; on n'actualise que le sous-titre.
-      const sub = SUBTITLES[activePanelId()] || SUBTITLES.colombie;
+      // Titre et slogan fixes (identiques sur les trois onglets) ;
+      // seule la langue du slogan est actualisee.
+      const sub = SUBTITLES.colombie;
       $("#page-subtitle").textContent = sub[lang] || sub.fr;
     }
 
